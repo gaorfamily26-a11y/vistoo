@@ -209,12 +209,12 @@ export default function AdminPanel() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] flex flex-col md:flex-row font-sans">
+    <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row font-sans relative z-10">
       {/* SIDEBAR */}
-      <div className="w-full md:w-72 bg-slate-900 text-slate-300 flex flex-col border-r border-slate-800 shadow-2xl z-20">
-        <div className="p-6 border-b border-slate-800/50 flex justify-between items-center bg-slate-950/50">
+      <div className="w-full md:w-72 bg-[#0A0A0A] text-slate-300 flex flex-col border-r border-slate-800 shadow-2xl z-20">
+        <div className="p-6 border-b border-slate-800/50 flex justify-between items-center bg-[#0A0A0A]">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-600/20">
               <Logo className="text-lg text-white" />
             </div>
             <span className="font-bold text-white text-lg tracking-tight">Vistoo CRM</span>
@@ -231,7 +231,7 @@ export default function AdminPanel() {
               <LayoutDashboard size={18} />
               Panel de Leads
             </button>
-            <button className="w-full flex items-center gap-3 text-slate-400 hover:bg-slate-800 hover:text-slate-200 px-3 py-2.5 rounded-xl font-medium transition-colors">
+            <button className="w-full flex items-center gap-3 text-slate-400 hover:bg-white/5 hover:text-slate-200 px-3 py-2.5 rounded-xl font-medium transition-colors">
               <Users size={18} />
               Directorio de Clientes
             </button>
@@ -239,14 +239,14 @@ export default function AdminPanel() {
 
           <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3 px-3">Configuración</div>
           <nav className="space-y-1">
-            <button className="w-full flex items-center gap-3 text-slate-400 hover:bg-slate-800 hover:text-slate-200 px-3 py-2.5 rounded-xl font-medium transition-colors">
+            <button className="w-full flex items-center gap-3 text-slate-400 hover:bg-white/5 hover:text-slate-200 px-3 py-2.5 rounded-xl font-medium transition-colors">
               <Settings size={18} />
               Ajustes de Cuenta
             </button>
           </nav>
         </div>
 
-        <div className="p-4 border-t border-slate-800/50 bg-slate-950/30">
+        <div className="p-4 border-t border-slate-800/50 bg-[#0A0A0A]">
           <div className="flex items-center gap-3 mb-4 px-2">
             <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold shadow-lg">
               AD
@@ -258,7 +258,7 @@ export default function AdminPanel() {
           </div>
           <button 
             onClick={() => setIsAuthenticated(false)}
-            className="w-full flex items-center justify-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800 py-2.5 rounded-xl transition-colors text-sm font-medium"
+            className="w-full flex items-center justify-center gap-2 text-slate-400 hover:text-white hover:bg-white/5 py-2.5 rounded-xl transition-colors text-sm font-medium"
           >
             <LogOut size={16} />
             Cerrar Sesión
@@ -267,9 +267,9 @@ export default function AdminPanel() {
       </div>
 
       {/* MAIN CONTENT */}
-      <div className="flex-1 flex flex-col h-screen overflow-hidden relative">
+      <div className="flex-1 flex flex-col h-screen overflow-hidden relative bg-slate-50">
         {/* Top Header */}
-        <header className="bg-white border-b border-slate-200 px-8 py-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 z-10">
+        <header className="bg-white border-b border-slate-200 px-8 py-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 z-10 shadow-sm">
           <div>
             <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Gestión de Solicitudes</h1>
             <p className="text-sm text-slate-500 mt-1">Administra, contacta y convierte tus leads en clientes.</p>
@@ -289,33 +289,44 @@ export default function AdminPanel() {
         <main className="flex-1 overflow-auto p-4 md:p-8 custom-scrollbar">
           
           {/* Dashboard Stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center"><Users size={24} /></div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-4">
+              <div className="flex items-center justify-between">
+                <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center"><Users size={24} /></div>
+                <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md">+12% este mes</span>
+              </div>
               <div>
-                <div className="text-sm font-bold text-slate-500">Total Leads</div>
-                <div className="text-2xl font-black text-slate-900">{totalLeads}</div>
+                <div className="text-sm font-bold text-slate-500 mb-1">Total Leads</div>
+                <div className="text-3xl font-black text-slate-900 tracking-tight">{totalLeads}</div>
               </div>
             </div>
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center"><AlertCircle size={24} /></div>
+            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-4">
+              <div className="flex items-center justify-between">
+                <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center"><AlertCircle size={24} /></div>
+                <span className="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded-md">Atención req.</span>
+              </div>
               <div>
-                <div className="text-sm font-bold text-slate-500">Nuevos / Pendientes</div>
-                <div className="text-2xl font-black text-slate-900">{pendingLeads}</div>
+                <div className="text-sm font-bold text-slate-500 mb-1">Nuevos / Pendientes</div>
+                <div className="text-3xl font-black text-slate-900 tracking-tight">{pendingLeads}</div>
               </div>
             </div>
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center"><MessageCircle size={24} /></div>
+            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-4">
+              <div className="flex items-center justify-between">
+                <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center"><MessageCircle size={24} /></div>
+              </div>
               <div>
-                <div className="text-sm font-bold text-slate-500">En Gestión</div>
-                <div className="text-2xl font-black text-slate-900">{contactedLeads}</div>
+                <div className="text-sm font-bold text-slate-500 mb-1">En Gestión</div>
+                <div className="text-3xl font-black text-slate-900 tracking-tight">{contactedLeads}</div>
               </div>
             </div>
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center"><CheckCircle2 size={24} /></div>
+            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-4">
+              <div className="flex items-center justify-between">
+                <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center"><CheckCircle2 size={24} /></div>
+                <span className="text-xs font-bold text-slate-500 bg-slate-100 px-2 py-1 rounded-md">Tasa de conv.</span>
+              </div>
               <div>
-                <div className="text-sm font-bold text-slate-500">Convertidos</div>
-                <div className="text-2xl font-black text-slate-900">{completedLeads} <span className="text-sm font-medium text-emerald-500 ml-1">({conversionRate}%)</span></div>
+                <div className="text-sm font-bold text-slate-500 mb-1">Convertidos</div>
+                <div className="text-3xl font-black text-slate-900 tracking-tight">{completedLeads} <span className="text-base font-medium text-emerald-500 ml-1">({conversionRate}%)</span></div>
               </div>
             </div>
           </div>
@@ -324,14 +335,14 @@ export default function AdminPanel() {
           <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
             
             {/* Tabs & Filters */}
-            <div className="border-b border-slate-200 px-4 py-3 flex flex-wrap gap-2 items-center justify-between bg-slate-50/50">
-              <div className="flex gap-1">
-                <button onClick={() => setActiveTab('all')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-colors ${activeTab === 'all' ? 'bg-white text-slate-900 shadow-sm border border-slate-200' : 'text-slate-500 hover:bg-slate-100'}`}>Todos</button>
-                <button onClick={() => setActiveTab('pending')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-colors ${activeTab === 'pending' ? 'bg-white text-blue-700 shadow-sm border border-slate-200' : 'text-slate-500 hover:bg-slate-100'}`}>Nuevos</button>
-                <button onClick={() => setActiveTab('contacted')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-colors ${activeTab === 'contacted' ? 'bg-white text-amber-700 shadow-sm border border-slate-200' : 'text-slate-500 hover:bg-slate-100'}`}>En Gestión</button>
-                <button onClick={() => setActiveTab('completed')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-colors ${activeTab === 'completed' ? 'bg-white text-emerald-700 shadow-sm border border-slate-200' : 'text-slate-500 hover:bg-slate-100'}`}>Clientes</button>
+            <div className="border-b border-slate-200 px-6 py-4 flex flex-wrap gap-4 items-center justify-between bg-white">
+              <div className="flex gap-2">
+                <button onClick={() => setActiveTab('all')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'all' ? 'bg-slate-900 text-white shadow-md' : 'text-slate-500 hover:bg-slate-100'}`}>Todos</button>
+                <button onClick={() => setActiveTab('pending')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'pending' ? 'bg-blue-100 text-blue-700 shadow-sm' : 'text-slate-500 hover:bg-slate-100'}`}>Nuevos</button>
+                <button onClick={() => setActiveTab('contacted')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'contacted' ? 'bg-amber-100 text-amber-700 shadow-sm' : 'text-slate-500 hover:bg-slate-100'}`}>En Gestión</button>
+                <button onClick={() => setActiveTab('completed')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'completed' ? 'bg-emerald-100 text-emerald-700 shadow-sm' : 'text-slate-500 hover:bg-slate-100'}`}>Clientes</button>
               </div>
-              <button className="flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-slate-900 px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors">
+              <button className="flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-slate-900 px-4 py-2 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors shadow-sm">
                 <Filter size={16} /> Filtros
               </button>
             </div>
@@ -341,17 +352,17 @@ export default function AdminPanel() {
                 <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div>
               </div>
             ) : displayClients.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-24 px-4 text-center">
-                <div className="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mb-6 border border-slate-100">
-                  <LayoutDashboard className="text-slate-300" size={40} />
+              <div className="flex flex-col items-center justify-center py-24 px-4 text-center bg-slate-50/50">
+                <div className="w-20 h-20 bg-white rounded-2xl shadow-sm flex items-center justify-center mb-6 border border-slate-200">
+                  <LayoutDashboard className="text-slate-400" size={32} />
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 mb-2">Tu CRM está listo</h3>
                 <p className="text-slate-500 max-w-md mb-8">Aún no tienes solicitudes registradas. Cuando los usuarios completen el formulario, aparecerán aquí para que puedas gestionarlos.</p>
                 <button 
                   onClick={enableDemoMode}
-                  className="bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-lg flex items-center gap-2"
+                  className="bg-white hover:bg-slate-50 text-slate-900 font-bold py-3 px-6 rounded-xl transition-all shadow-sm border border-slate-200 flex items-center gap-2"
                 >
-                  <PlayCircle size={20} />
+                  <PlayCircle size={20} className="text-blue-600" />
                   Cargar Datos de Prueba (Demo)
                 </button>
               </div>
