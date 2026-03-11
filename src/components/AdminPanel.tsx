@@ -156,39 +156,38 @@ export default function AdminPanel() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-[#f8fafc] flex items-center justify-center p-4 font-sans">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 font-sans relative z-50">
+        <div className="absolute inset-0 bg-slate-50 z-0"></div>
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white p-8 rounded-2xl shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] w-full max-w-md border border-slate-100"
+          className="bg-white p-10 rounded-3xl shadow-2xl shadow-slate-200/50 w-full max-w-md border border-slate-100 relative z-10"
         >
-          <div className="text-center mb-8">
-            <div className="flex justify-center mb-4">
-              <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-600/20">
-                <Logo className="text-3xl text-white" />
-              </div>
+          <div className="text-center mb-10">
+            <div className="flex justify-center mb-6">
+              <Logo className="text-4xl text-slate-900" />
             </div>
-            <h1 className="text-2xl font-bold text-slate-900 mb-2">Panel de Control</h1>
-            <p className="text-slate-500 text-sm">Ingresa tus credenciales para administrar los clientes.</p>
+            <h1 className="text-2xl font-bold text-slate-900 mb-2">Bienvenido a Vistoo</h1>
+            <p className="text-slate-500 text-sm">Ingresa al panel de administración</p>
           </div>
           
-          <form onSubmit={handleLogin} className="space-y-5">
+          <form onSubmit={handleLogin} className="space-y-6">
             <div>
-              <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Contraseña de acceso</label>
+              <label className="block text-sm font-semibold text-slate-700 mb-2">Contraseña</label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Ej: admin123"
-                className="w-full px-4 py-3 bg-slate-50 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 focus:bg-white outline-none transition-all"
+                placeholder="••••••••"
+                className="w-full px-4 py-3 bg-slate-50 rounded-xl border border-slate-200 focus:border-slate-900 focus:ring-1 focus:ring-slate-900 focus:bg-white outline-none transition-all"
                 required
               />
             </div>
             <button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-4 rounded-xl transition-all shadow-lg shadow-blue-600/20 hover:shadow-blue-600/40 hover:-translate-y-0.5"
+              className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 px-4 rounded-xl transition-all shadow-lg shadow-slate-900/20 hover:shadow-slate-900/40"
             >
-              Ingresar al CRM
+              Ingresar al Panel
             </button>
           </form>
         </motion.div>
@@ -209,56 +208,55 @@ export default function AdminPanel() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row font-sans relative z-10">
+    <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row font-sans relative z-50">
+      <div className="absolute inset-0 bg-slate-50 z-0 pointer-events-none"></div>
       {/* SIDEBAR */}
-      <div className="w-full md:w-72 bg-[#0A0A0A] text-slate-300 flex flex-col border-r border-slate-800 shadow-2xl z-20">
-        <div className="p-6 border-b border-slate-800/50 flex justify-between items-center bg-[#0A0A0A]">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-600/20">
-              <Logo className="text-lg text-white" />
-            </div>
-            <span className="font-bold text-white text-lg tracking-tight">Vistoo CRM</span>
+      <div className="w-full md:w-64 bg-white text-slate-600 flex flex-col border-r border-slate-200 z-20 relative">
+        <div className="p-6 border-b border-slate-100 flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <Logo className="text-2xl text-slate-900" />
+            <span className="font-bold text-slate-400 text-sm tracking-widest uppercase mt-1">CRM</span>
           </div>
-          <button onClick={() => setIsAuthenticated(false)} className="text-slate-500 hover:text-white md:hidden">
+          <button onClick={() => setIsAuthenticated(false)} className="text-slate-400 hover:text-slate-600 md:hidden">
             <X size={20} />
           </button>
         </div>
         
         <div className="p-4 flex-1 overflow-y-auto custom-scrollbar">
-          <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3 px-3">Gestión Principal</div>
+          <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3 px-3 mt-4">Menú Principal</div>
           <nav className="space-y-1 mb-8">
-            <button className="w-full flex items-center gap-3 bg-blue-600/10 text-blue-400 px-3 py-2.5 rounded-xl font-medium border border-blue-500/20 transition-colors">
-              <LayoutDashboard size={18} />
+            <button className="w-full flex items-center gap-3 bg-slate-50 text-slate-900 px-3 py-2.5 rounded-xl font-semibold transition-colors">
+              <LayoutDashboard size={18} className="text-slate-700" />
               Panel de Leads
             </button>
-            <button className="w-full flex items-center gap-3 text-slate-400 hover:bg-white/5 hover:text-slate-200 px-3 py-2.5 rounded-xl font-medium transition-colors">
+            <button className="w-full flex items-center gap-3 text-slate-500 hover:bg-slate-50 hover:text-slate-900 px-3 py-2.5 rounded-xl font-medium transition-colors">
               <Users size={18} />
-              Directorio de Clientes
+              Directorio
             </button>
           </nav>
 
-          <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3 px-3">Configuración</div>
+          <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3 px-3">Configuración</div>
           <nav className="space-y-1">
-            <button className="w-full flex items-center gap-3 text-slate-400 hover:bg-white/5 hover:text-slate-200 px-3 py-2.5 rounded-xl font-medium transition-colors">
+            <button className="w-full flex items-center gap-3 text-slate-500 hover:bg-slate-50 hover:text-slate-900 px-3 py-2.5 rounded-xl font-medium transition-colors">
               <Settings size={18} />
-              Ajustes de Cuenta
+              Ajustes
             </button>
           </nav>
         </div>
 
-        <div className="p-4 border-t border-slate-800/50 bg-[#0A0A0A]">
+        <div className="p-4 border-t border-slate-100">
           <div className="flex items-center gap-3 mb-4 px-2">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold shadow-lg">
+            <div className="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-600 font-bold">
               AD
             </div>
             <div>
-              <div className="text-sm font-bold text-white">Administrador</div>
+              <div className="text-sm font-bold text-slate-900">Administrador</div>
               <div className="text-xs text-slate-500">admin@vistoo.com</div>
             </div>
           </div>
           <button 
             onClick={() => setIsAuthenticated(false)}
-            className="w-full flex items-center justify-center gap-2 text-slate-400 hover:text-white hover:bg-white/5 py-2.5 rounded-xl transition-colors text-sm font-medium"
+            className="w-full flex items-center justify-center gap-2 text-slate-500 hover:text-slate-900 hover:bg-slate-50 py-2.5 rounded-xl transition-colors text-sm font-medium"
           >
             <LogOut size={16} />
             Cerrar Sesión
@@ -267,9 +265,9 @@ export default function AdminPanel() {
       </div>
 
       {/* MAIN CONTENT */}
-      <div className="flex-1 flex flex-col h-screen overflow-hidden relative bg-slate-50">
+      <div className="flex-1 flex flex-col h-screen overflow-hidden relative z-10 bg-slate-50/50">
         {/* Top Header */}
-        <header className="bg-white border-b border-slate-200 px-8 py-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 z-10 shadow-sm">
+        <header className="bg-white/80 backdrop-blur-md border-b border-slate-200 px-8 py-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 z-10 sticky top-0">
           <div>
             <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Gestión de Solicitudes</h1>
             <p className="text-sm text-slate-500 mt-1">Administra, contacta y convierte tus leads en clientes.</p>
@@ -336,14 +334,14 @@ export default function AdminPanel() {
             
             {/* Tabs & Filters */}
             <div className="border-b border-slate-200 px-6 py-4 flex flex-wrap gap-4 items-center justify-between bg-white">
-              <div className="flex gap-2">
-                <button onClick={() => setActiveTab('all')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'all' ? 'bg-slate-900 text-white shadow-md' : 'text-slate-500 hover:bg-slate-100'}`}>Todos</button>
-                <button onClick={() => setActiveTab('pending')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'pending' ? 'bg-blue-100 text-blue-700 shadow-sm' : 'text-slate-500 hover:bg-slate-100'}`}>Nuevos</button>
-                <button onClick={() => setActiveTab('contacted')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'contacted' ? 'bg-amber-100 text-amber-700 shadow-sm' : 'text-slate-500 hover:bg-slate-100'}`}>En Gestión</button>
-                <button onClick={() => setActiveTab('completed')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'completed' ? 'bg-emerald-100 text-emerald-700 shadow-sm' : 'text-slate-500 hover:bg-slate-100'}`}>Clientes</button>
+              <div className="flex gap-2 bg-slate-100 p-1 rounded-xl">
+                <button onClick={() => setActiveTab('all')} className={`px-4 py-1.5 rounded-lg text-sm font-semibold transition-all ${activeTab === 'all' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}>Todos</button>
+                <button onClick={() => setActiveTab('pending')} className={`px-4 py-1.5 rounded-lg text-sm font-semibold transition-all ${activeTab === 'pending' ? 'bg-white text-blue-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}>Nuevos</button>
+                <button onClick={() => setActiveTab('contacted')} className={`px-4 py-1.5 rounded-lg text-sm font-semibold transition-all ${activeTab === 'contacted' ? 'bg-white text-amber-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}>En Gestión</button>
+                <button onClick={() => setActiveTab('completed')} className={`px-4 py-1.5 rounded-lg text-sm font-semibold transition-all ${activeTab === 'completed' ? 'bg-white text-emerald-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}>Clientes</button>
               </div>
-              <button className="flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-slate-900 px-4 py-2 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors shadow-sm">
-                <Filter size={16} /> Filtros
+              <button className="flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-slate-900 px-4 py-2 rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors shadow-sm">
+                <Filter size={16} /> Filtrar
               </button>
             </div>
 
