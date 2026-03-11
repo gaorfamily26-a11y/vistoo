@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, ChangeEvent } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { User, Building2, MapPin, Phone, Rocket, Sparkles } from 'lucide-react';
 import { supabase } from '../services/supabase';
 import Logo from './Logo';
 
@@ -128,6 +129,22 @@ export default function RegistrationForm() {
   const mapRef = useRef(null);
   const mapInstance = useRef(null);
   const markerInstance = useRef(null);
+
+  const COUNTRY_CODES: Record<string, string> = {
+    'PE': '+51',
+    'MX': '+52',
+    'CO': '+57',
+    'CL': '+56',
+    'AR': '+54',
+    'EC': '+593',
+    'BO': '+591',
+    'UY': '+598',
+    'VE': '+58',
+    'ES': '+34',
+    'GT': '+502',
+    'PA': '+507',
+    'US': '+1'
+  };
 
   useEffect(() => {
     // Detect country by IP
@@ -269,43 +286,28 @@ export default function RegistrationForm() {
       return;
     }
 
-    if (!termsAccepted) {
-      alert('Debes aceptar los términos del servicio');
+    if (!formData.businessName || !formData.ownerName || !formData.phone || !formData.country) {
+      alert('Por favor, completa todos los campos requeridos.');
       return;
     }
+
     setIsSubmitting(true);
 
     try {
-      // 1. Upload photos
-      const photoUrls = await Promise.all(
-        photos.map(async (photo) => {
-          const file = photo.file;
-          const fileName = `${Date.now()}-${file.name}`;
-          const { data, error } = await supabase.storage
-            .from('business-photos')
-            .upload(fileName, file);
+      // Prepare data payload
+      const fullPhone = formData.country && COUNTRY_CODES[formData.country] 
+        ? `${COUNTRY_CODES[formData.country]} ${formData.phone}`
+        : formData.phone;
 
-          if (error) {
-            throw error;
-          }
-
-          const { data: { publicUrl } } = supabase.storage
-            .from('business-photos')
-            .getPublicUrl(fileName);
-            
-          return publicUrl;
-        })
-      );
-
-      // 2. Prepare data payload
       const payload = {
-        ...formData,
-        schedule,
-        photo_urls: photoUrls,
+        businessName: formData.businessName,
+        ownerName: formData.ownerName,
+        phone: fullPhone,
+        country: formData.country,
         status: 'pending', // Initial status
       };
 
-      // 3. Insert into database
+      // Insert into database
       const { data: clientData, error: clientError } = await supabase
         .from('clients')
         .insert([payload])
@@ -316,8 +318,8 @@ export default function RegistrationForm() {
         throw clientError;
       }
 
-      // 4. Success
-      setTrackingCode(clientData.tracking_code || 'N/A');
+      // Success
+      setTrackingCode(clientData?.tracking_code || 'N/A');
       setCurrentStep(5); // Success step
 
     } catch (error) {
@@ -471,7 +473,7 @@ export default function RegistrationForm() {
                   whileHover={{ scale: 1.05, background: "rgba(255,255,255,0.1)" }}
                   whileTap={{ scale: 0.95 }}
                   className="btn btn-secondary" 
-                  onClick={() => window.open('https://wa.me/yournumber', '_blank')}
+                  onClick={() => setShowForm(true)}
                 >
                   HABLAR CON UN ASESOR
                 </motion.button>
@@ -990,7 +992,7 @@ export default function RegistrationForm() {
                   whileHover={{ scale: 1.05, background: "rgba(255,255,255,0.1)" }}
                   whileTap={{ scale: 0.95 }}
                   className="btn btn-secondary" 
-                  onClick={() => window.open('https://wa.me/yournumber', '_blank')}
+                  onClick={() => setShowForm(true)}
                 >
                   QUIERO POSICIONARME HOY
                 </motion.button>
@@ -1022,271 +1024,188 @@ export default function RegistrationForm() {
               </motion.p>
             </div>
 
-            {currentStep < 5 && (
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="stepper" 
-              id="stepper"
-            >
+            
 
-            <div className={`step ${currentStep >= 1 ? 'done' : ''} ${currentStep === 1 ? 'active' : ''}`}>
-              <div className="step-num">1</div>
-              <span>Tu negocio</span>
-            </div>
-            <div className={`step-line ${currentStep > 1 ? 'done' : ''}`}></div>
-            <div className={`step ${currentStep >= 2 ? 'done' : ''} ${currentStep === 2 ? 'active' : ''}`}>
-              <div className="step-num">2</div>
-              <span>Ubicación</span>
-            </div>
-            <div className={`step-line ${currentStep > 2 ? 'done' : ''}`}></div>
-            <div className={`step ${currentStep >= 3 ? 'done' : ''} ${currentStep === 3 ? 'active' : ''}`}>
-              <div className="step-num">3</div>
-              <span>Fotos y horarios</span>
-            </div>
-            <div className={`step-line ${currentStep > 3 ? 'done' : ''}`}></div>
-            <div className={`step ${currentStep >= 4 ? 'done' : ''} ${currentStep === 4 ? 'active' : ''}`}>
-              <div className="step-num">4</div>
-              <span>Confirmar</span>
-            </div>
-          </motion.div>
-        )}
+        <div className="form-card" id="formCard" style={{ maxWidth: '500px', margin: '0 auto', padding: '2rem', position: 'relative' }}>
+          <button 
+            onClick={() => setShowForm(false)}
+            style={{ position: 'absolute', top: '1rem', right: '1rem', background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', color: 'var(--muted)' }}
+            title="Volver a la web"
+          >
+            ×
+          </button>
+          {currentStep === 1 ? (
+            <div className="step-panel active" style={{ display: 'block' }}>
+              <div className="step-header" style={{ textAlign: 'center', marginBottom: '2rem' }}>
+                <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--text)' }}>Activa tu negocio hoy</h2>
+                <p style={{ color: 'var(--muted)', fontSize: '0.95rem', marginTop: '0.5rem' }}>Déjanos tus datos básicos y un asesor te contactará por WhatsApp para activar tu perfil en Google Maps.</p>
+              </div>
+              <div className="form-grid" style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                <motion.div 
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 }}
+                  className="field"
+                >
+                  <label style={{ fontWeight: '600', color: 'var(--text)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <User size={16} className="text-blue-500" /> Nombre completo <span className="required" style={{ color: 'red' }}>*</span>
+                  </label>
+                  <input type="text" id="ownerName" placeholder="Ej: Juan Pérez" value={formData.ownerName} onChange={handleInputChange} style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border)', outline: 'none', transition: 'all 0.3s ease' }} onFocus={(e) => e.target.style.borderColor = '#3b82f6'} onBlur={(e) => e.target.style.borderColor = 'var(--border)'} />
+                </motion.div>
+                
+                <motion.div 
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="field"
+                >
+                  <label style={{ fontWeight: '600', color: 'var(--text)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <Building2 size={16} className="text-blue-500" /> Nombre de tu negocio <span className="required" style={{ color: 'red' }}>*</span>
+                  </label>
+                  <input type="text" id="businessName" placeholder="Ej: Restaurante El Rincón" value={formData.businessName} onChange={handleInputChange} style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border)', outline: 'none', transition: 'all 0.3s ease' }} onFocus={(e) => e.target.style.borderColor = '#3b82f6'} onBlur={(e) => e.target.style.borderColor = 'var(--border)'} />
+                </motion.div>
 
-        <div className="form-card" id="formCard">
-
-          <div className={`step-panel ${currentStep === 1 ? 'active' : ''}`} style={displayStep(1)}>
-            <div className="step-header">
-              <h2>Cuéntanos sobre tu negocio</h2>
-              <p>Esta información aparecerá en tu perfil de Google Maps.</p>
-            </div>
-            <div className="form-grid">
-              <div className="field">
-                <label>País <span className="required">*</span></label>
-                <select id="country" value={formData.country} onChange={handleInputChange}>
-                  <option value="">Detectando tu país...</option>
-                  <option value="PE" data-code="+51" data-lang="es">🇵🇪 Perú</option>
-                  <option value="MX" data-code="+52" data-lang="es">🇲🇽 México</option>
-                  <option value="CO" data-code="+57" data-lang="es">🇨🇴 Colombia</option>
-                  <option value="CL" data-code="+56" data-lang="es">🇨🇱 Chile</option>
-                  <option value="AR" data-code="+54" data-lang="es">🇦🇷 Argentina</option>
-                  <option value="EC" data-code="+593" data-lang="es">🇪🇨 Ecuador</option>
-                  <option value="BO" data-code="+591" data-lang="es">🇧🇴 Bolivia</option>
-                  <option value="UY" data-code="+598" data-lang="es">🇺🇾 Uruguay</option>
-                  <option value="VE" data-code="+58" data-lang="es">🇻🇪 Venezuela</option>
-                  <option value="ES" data-code="+34" data-lang="es">🇪🇸 España</option>
-                  <option value="GT" data-code="+502" data-lang="es">🇬🇹 Guatemala</option>
-                  <option value="PA" data-code="+507" data-lang="es">🇵🇦 Panamá</option>
-                  <option value="US" data-code="+1" data-lang="en">🇺🇸 United States</option>
-                  <option value="BR" data-code="+55" data-lang="pt">🇧🇷 Brasil</option>
-                </select>
-              </div>
-              <div className="field">
-                <label>Categoría <span className="required">*</span></label>
-                <select id="category" value={formData.category} onChange={handleInputChange}>
-                  <option value="">Selecciona una categoría</option>
-                  <option>🍽️ Restaurante / Comida</option>
-                  <option>☕ Café / Cafetería</option>
-                  <option>🛒 Tienda / Retail</option>
-                  <option>💇 Salón de Belleza / Barbería</option>
-                  <option>🏥 Clínica / Consultorio Médico</option>
-                  <option>🦷 Odontología / Dental</option>
-                  <option>🏋️ Gimnasio / Fitness</option>
-                  <option>🏪 Farmacia / Droguería</option>
-                  <option>🏨 Hotel / Hospedaje</option>
-                  <option>🚗 Taller / Mecánica</option>
-                  <option>📚 Educación / Academia</option>
-                  <option>💼 Oficina / Servicios Profesionales</option>
-                  <option>🛠️ Ferretería / Materiales</option>
-                  <option>🧘 Spa / Wellness</option>
-                  <option>🎉 Eventos / Salón de Fiestas</option>
-                  <option>🏗️ Construcción / Inmobiliaria</option>
-                  <option>💻 Tecnología / Electrónica</option>
-                  <option>🌿 Vivero / Floristería</option>
-                  <option>🐾 Veterinaria / Pet Shop</option>
-                  <option>Otro</option>
-                </select>
-              </div>
-              <div className="field span2">
-                <label>Nombre del negocio <span className="required">*</span></label>
-                <input type="text" id="businessName" placeholder="Ej: Restaurante El Rincón Criollo" value={formData.businessName} onChange={handleInputChange} />
-              </div>
-              <div className="field span2">
-                <label>Descripción <span className="required">*</span></label>
-                <textarea id="description" maxLength={750} placeholder="Describe tu negocio en pocas palabras. ¿Qué ofreces? ¿Qué te hace especial?" value={formData.description} onChange={handleInputChange}></textarea>
-                <div className="char-count"><span>{formData.description.length}</span> / 750</div>
-              </div>
-              <div className="field">
-                <label>Nombre del dueño <span className="required">*</span></label>
-                <input type="text" id="ownerName" placeholder="Tu nombre completo" value={formData.ownerName} onChange={handleInputChange} />
-              </div>
-              <div className="field">
-                <label>Email</label>
-                <input type="email" id="email" placeholder="negocio@email.com" value={formData.email} onChange={handleInputChange} />
-              </div>
-              <div className="field span2">
-                <label>WhatsApp <span className="required">*</span></label>
-                <div className="phone-wrap">
-                  <select className="phone-code" id="phoneCode">
-                    <option value="+51">🇵🇪 +51</option>
-                    <option value="+52">🇲🇽 +52</option>
-                    <option value="+57">🇨🇴 +57</option>
-                    <option value="+56">🇨🇱 +56</option>
-                    <option value="+54">🇦🇷 +54</option>
-                    <option value="+593">🇪🇨 +593</option>
-                    <option value="+591">🇧🇴 +591</option>
-                    <option value="+598">🇺🇾 +598</option>
-                    <option value="+58">🇻🇪 +58</option>
-                    <option value="+34">🇪🇸 +34</option>
-                    <option value="+1">🇺🇸 +1</option>
-                    <option value="+55">🇧🇷 +55</option>
+                <motion.div 
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="field"
+                >
+                  <label style={{ fontWeight: '600', color: 'var(--text)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <MapPin size={16} className="text-blue-500" /> País <span className="required" style={{ color: 'red' }}>*</span>
+                  </label>
+                  <select id="country" value={formData.country} onChange={handleInputChange} style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border)', outline: 'none', backgroundColor: 'white', transition: 'all 0.3s ease' }} onFocus={(e) => e.target.style.borderColor = '#3b82f6'} onBlur={(e) => e.target.style.borderColor = 'var(--border)'}>
+                    <option value="">Selecciona tu país...</option>
+                    <option value="PE">🇵🇪 Perú</option>
+                    <option value="MX">🇲🇽 México</option>
+                    <option value="CO">🇨🇴 Colombia</option>
+                    <option value="CL">🇨🇱 Chile</option>
+                    <option value="AR">🇦🇷 Argentina</option>
+                    <option value="EC">🇪🇨 Ecuador</option>
+                    <option value="BO">🇧🇴 Bolivia</option>
+                    <option value="UY">🇺🇾 Uruguay</option>
+                    <option value="VE">🇻🇪 Venezuela</option>
+                    <option value="ES">🇪🇸 España</option>
+                    <option value="GT">🇬🇹 Guatemala</option>
+                    <option value="PA">🇵🇦 Panamá</option>
+                    <option value="US">🇺🇸 Estados Unidos</option>
                   </select>
-                  <input type="tel" id="phone" placeholder="999 888 777" style={{ flex: 1 }} value={formData.phone} onChange={handleInputChange} />
-                </div>
-              </div>
-              <div className="field">
-                <label>Sitio web</label>
-                <input type="url" id="website" placeholder="https://www.tunegocio.com" value={formData.website} onChange={handleInputChange} />
-              </div>
-            </div>
-            <div className="btn-row">
-              <div></div>
-              <button className="btn btn-primary" onClick={() => setCurrentStep(2)}>Continuar →</button>
-            </div>
-          </div>
+                </motion.div>
 
-          <div className={`step-panel ${currentStep === 2 ? 'active' : ''}`} style={displayStep(2)}>
-            <div className="step-header">
-              <h2>¿Dónde está tu negocio?</h2>
-              <p>Busca tu dirección y ajusta el pin en el mapa para mayor precisión.</p>
-            </div>
-            <div className="form-grid full">
-              <div className="field">
-                <label>Buscar dirección <span className="required">*</span></label>
-                <input type="text" id="addressSearch" placeholder="Escribe tu dirección..." autoComplete="off" />
-              </div>
-              <div className="field">
-                <label>Vista del mapa</label>
-                <div className="map-container" id="mapContainer">
-                  <div className="map-placeholder">
-                    <div className="icon">📍</div>
-                    <p>Escribe tu dirección arriba<br />para ver el mapa</p>
+                <motion.div 
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.4 }}
+                  className="field"
+                >
+                  <label style={{ fontWeight: '600', color: 'var(--text)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <Phone size={16} className="text-blue-500" /> WhatsApp <span className="required" style={{ color: 'red' }}>*</span>
+                  </label>
+                  <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    {formData.country && COUNTRY_CODES[formData.country] && (
+                      <motion.div 
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        style={{ padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border)', backgroundColor: '#f0fdf4', color: '#166534', fontWeight: 'bold', display: 'flex', alignItems: 'center' }}
+                      >
+                        {COUNTRY_CODES[formData.country]}
+                      </motion.div>
+                    )}
+                    <input type="tel" id="phone" placeholder={formData.country && COUNTRY_CODES[formData.country] ? "Ej: 1234 5678" : "Ej: +52 55 1234 5678"} value={formData.phone} onChange={handleInputChange} style={{ flex: 1, padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border)', outline: 'none', transition: 'all 0.3s ease' }} onFocus={(e) => e.target.style.borderColor = '#3b82f6'} onBlur={(e) => e.target.style.borderColor = 'var(--border)'} />
                   </div>
-                  <div id="map" ref={mapRef} style={{ height: '100%', width: '100%' }}></div>
-                </div>
-                <div className="address-result" id="addressResult">
-                  📍 <span id="formattedAddress"></span>
-                </div>
-              </div>
-              <div className="field">
-                <label>Ciudad <span className="required">*</span></label>
-                <input type="text" id="city" placeholder="Ciudad" value={formData.city} onChange={handleInputChange} />
-              </div>
-              <div className="field">
-                <label>Dirección exacta</label>
-                <input type="text" id="addressFull" placeholder="Se completará automáticamente" value={formData.address} onChange={handleInputChange} />
-              </div>
-            </div>
-            <div className="btn-row">
-              <button className="btn btn-secondary" onClick={() => setCurrentStep(1)}>← Atrás</button>
-              <button className="btn btn-primary" onClick={() => setCurrentStep(3)}>Continuar →</button>
-            </div>
-          </div>
+                </motion.div>
 
-          <div className={`step-panel ${currentStep === 3 ? 'active' : ''}`} style={displayStep(3)}>
-            <div className="step-header">
-              <h2>Fotos y horarios</h2>
-              <p>Un perfil con fotos y horarios recibe 3x más visitas.</p>
-            </div>
-            <div className="field" style={{ marginBottom: '28px' }}>
-              <label>Fotos del negocio (máx. 5)</label>
-              <div className="photo-upload" onClick={() => document.getElementById('photoInput').click()}>
-                <div className="icon">📸</div>
-                <p><strong>Haz clic para subir fotos</strong></p>
-                <p>Fachada, interior, productos — máx 5MB por foto</p>
-                <input type="file" id="photoInput" accept="image/*" multiple onChange={handlePhotoChange} style={{ display: 'none' }} />
-              </div>
-              <div className="photo-previews">
-                {photos.map((photo, index) => (
-                  <div key={index} className="photo-preview">
-                    <img src={photo.preview} alt={`preview ${index}`} />
-                    <button className="remove" onClick={() => removePhoto(index)}>✕</button>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="field">
-              <label>Horario de atención</label>
-              <div className="schedule-grid">
-                {days.map(day => (
-                  <div key={day.key} className="schedule-day" style={{ opacity: schedule[day.key].closed ? 0.4 : 1 }}>
-                    <span className="day-name">{day.label}</span>
-                    <input type="time" value={schedule[day.key].open} disabled={schedule[day.key].closed} onChange={(e) => handleScheduleChange(day.key, 'open', e.target.value)} />
-                    <input type="time" value={schedule[day.key].close} disabled={schedule[day.key].closed} onChange={(e) => handleScheduleChange(day.key, 'close', e.target.value)} />
-                    <label className="closed-toggle">
-                      <input type="checkbox" checked={schedule[day.key].closed} onChange={(e) => handleScheduleChange(day.key, 'closed', e.target.checked)} />
-                      Cerrado
-                    </label>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="btn-row">
-              <button className="btn btn-secondary" onClick={() => setCurrentStep(2)}>← Atrás</button>
-              <button className="btn btn-primary" onClick={() => setCurrentStep(4)}>Continuar →</button>
-            </div>
-          </div>
-
-          <div className={`step-panel ${currentStep === 4 ? 'active' : ''}`} style={displayStep(4)}>
-            <div className="step-header">
-              <h2>Revisa tu información</h2>
-              <p>Confirma que todo esté correcto antes de enviar.</p>
-            </div>
-            <div className="summary-card">
-              <h3>🏪 Tu negocio</h3>
-              <div className="summary-row"><span className="key">Nombre</span><span className="val">{formData.businessName || '—'}</span></div>
-              <div className="summary-row"><span className="key">Categoría</span><span className="val">{formData.category || '—'}</span></div>
-              <div className="summary-row"><span className="key">País</span><span className="val">{formData.country || '—'}</span></div>
-              <div className="summary-row"><span className="key">Ciudad</span><span className="val">{formData.city || '—'}</span></div>
-              <div className="summary-row"><span className="key">WhatsApp</span><span className="val">{formData.phone || '—'}</span></div>
-              <div className="summary-row"><span className="key">Descripción</span><span className="val" style={{ maxWidth: '300px', fontSize: '13px', color: 'var(--muted)' }}>{formData.description.substring(0, 100) + '...' || '—'}</span></div>
-            </div>
-            <div className="summary-card">
-              <h3>📍 Ubicación</h3>
-              <div className="summary-row"><span className="key">Dirección</span><span className="val">{formData.address || 'Sin especificar'}</span></div>
-              <div className="summary-row"><span className="key">Coordenadas</span><span className="val">{formData.lat && formData.lng ? `${formData.lat.toFixed(6)}, ${formData.lng.toFixed(6)}` : 'Sin coordenadas'}</span></div>
-            </div>
-            <div className="field">
-              <div className="terms-check">
-                <input type="checkbox" id="termsCheck" checked={termsAccepted} onChange={(e) => setTermsAccepted(e.target.checked)} />
-                <label htmlFor="termsCheck">
-                  Acepto los <a href="#">términos del servicio</a> y la <a href="#">política de privacidad</a>.
-                  Confirmo que soy el propietario o representante autorizado del negocio y que la información proporcionada es verídica.
-                </label>
+                <motion.button 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                  whileHover={{ scale: 1.02, boxShadow: "0 10px 25px -5px rgba(59, 130, 246, 0.5)" }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleSubmit} 
+                  disabled={isSubmitting}
+                  style={{ 
+                    width: '100%', 
+                    padding: '1rem', 
+                    fontSize: '1.1rem', 
+                    marginTop: '1rem', 
+                    borderRadius: '12px', 
+                    fontWeight: 'bold', 
+                    background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)', 
+                    color: 'white', 
+                    border: 'none', 
+                    cursor: 'pointer', 
+                    display: 'flex', 
+                    justifyContent: 'center', 
+                    alignItems: 'center', 
+                    gap: '0.5rem',
+                    boxShadow: '0 4px 14px 0 rgba(59, 130, 246, 0.39)'
+                  }}
+                >
+                  {isSubmitting ? (
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+                      style={{ width: '20px', height: '20px', border: '3px solid rgba(255,255,255,0.3)', borderTopColor: 'white', borderRadius: '50%' }}
+                    />
+                  ) : (
+                    <>
+                      <Sparkles size={20} />
+                      ¡Quiero despegar mi negocio!
+                      <Rocket size={20} />
+                    </>
+                  )}
+                </motion.button>
+                <motion.p 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.6 }}
+                  style={{ textAlign: 'center', fontSize: '0.8rem', color: 'var(--muted)', marginTop: '0.5rem' }}
+                >
+                  Tus datos están seguros. No enviamos spam.
+                </motion.p>
+                <motion.button 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.7 }}
+                  onClick={() => setShowForm(false)}
+                  style={{ width: '100%', padding: '0.75rem', fontSize: '0.9rem', marginTop: '0.5rem', borderRadius: '8px', background: 'transparent', color: 'var(--muted)', border: '1px solid var(--border)', cursor: 'pointer', transition: 'all 0.2s' }}
+                  onMouseOver={(e) => e.currentTarget.style.background = '#f1f5f9'}
+                  onMouseOut={(e) => e.currentTarget.style.background = 'transparent'}
+                >
+                  Volver a la web
+                </motion.button>
               </div>
             </div>
-            <div className="btn-row">
-              <button className="btn btn-secondary" onClick={() => setCurrentStep(3)}>← Atrás</button>
-              <button className="btn btn-primary" onClick={handleSubmit} disabled={isSubmitting}>
-                {isSubmitting ? 'Enviando...' : 'Enviar solicitud 🚀'}
+          ) : (
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, type: "spring" }}
+              className="success-screen active visible" style={{ textAlign: 'center', padding: '2rem 0', display: 'block' }}
+            >
+              <motion.div 
+                initial={{ scale: 0 }}
+                animate={{ scale: 1, rotate: [0, 10, -10, 0] }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+                className="success-icon" style={{ fontSize: '4rem', marginBottom: '1rem' }}
+              >
+                🎉
+              </motion.div>
+              <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--text)', marginBottom: '1rem' }}>¡Solicitud enviada!</h2>
+              <p style={{ color: 'var(--muted)', marginBottom: '1.5rem' }}>Hemos recibido tus datos.<br />Un asesor te contactará por WhatsApp en breve para activar tu negocio.</p>
+              <button 
+                className="btn btn-secondary" 
+                onClick={() => {
+                  setCurrentStep(1);
+                  setFormData({ ...formData, businessName: '', ownerName: '', phone: '' });
+                  setShowForm(false);
+                }}
+                style={{ padding: '0.75rem 1.5rem', borderRadius: '8px', border: '1px solid var(--border)', background: 'white', cursor: 'pointer' }}
+              >
+                Volver a la web
               </button>
-            </div>
-          </div>
-
-          <div className={`success-screen ${currentStep === 5 ? 'active visible' : ''}`} style={displayStep(5)}>
-            <div className="success-icon">🎉</div>
-            <h2>¡Solicitud enviada!</h2>
-            <p>Hemos recibido la información de tu negocio.<br />Te contactaremos por WhatsApp en las próximas 24 horas.</p>
-            <div className="tracking-badge">{trackingCode}</div>
-            <p style={{ fontSize: '13px' }}>Guarda este código para hacer seguimiento de tu solicitud</p>
-            <div className="success-steps">
-              <div className="success-step"><div className="num">1</div><div>Revisamos tu información ✅</div></div>
-              <div className="success-step"><div className="num">2</div><div>Creamos tu perfil en Google Business Profile</div></div>
-              <div className="success-step"><div className="num">3</div><div>Google te envía un código de verificación</div></div>
-              <div className="success-step"><div className="num">4</div><div>¡Tu negocio aparece en Google Maps! 🗺️</div></div>
-            </div>
-          </div>
-
+            </motion.div>
+          )}
         </div>
       </motion.div>
       )}
