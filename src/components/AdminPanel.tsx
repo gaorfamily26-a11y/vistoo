@@ -563,18 +563,18 @@ export default function AdminPanel() {
                   
                   {/* Contact Card */}
                   <div>
-                    <h3 className="text-[11px] font-semibold text-slate-400 uppercase tracking-[0.08em] mb-5 flex items-center gap-2 after:content-[''] after:flex-1 after:h-px after:bg-slate-200"><User size={14}/> CONTACTO PRINCIPAL</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-5">
+                    <h3 className="text-[11px] font-semibold text-slate-400 uppercase tracking-[0.08em] mb-4 flex items-center gap-2 after:content-[''] after:flex-1 after:h-px after:bg-slate-200"><User size={14}/> CONTACTO PRINCIPAL</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-4">
                       <div>
-                        <div className="text-[12px] text-slate-500 mb-1">Nombre Completo</div>
+                        <div className="text-[12px] text-slate-500 mb-0.5">Nombre Completo</div>
                         <div className="text-[14px] font-medium text-slate-900">{selectedClient.ownerName}</div>
                       </div>
                       <div>
-                        <div className="text-[12px] text-slate-500 mb-1">Teléfono Directo</div>
+                        <div className="text-[12px] text-slate-500 mb-0.5">Teléfono Directo</div>
                         <div className="text-[14px] font-medium text-slate-900">{selectedClient.phone || 'No especificado'}</div>
                       </div>
                       <div className="sm:col-span-2">
-                        <div className="text-[12px] text-slate-500 mb-1">Correo Electrónico</div>
+                        <div className="text-[12px] text-slate-500 mb-0.5">Correo Electrónico</div>
                         <div className="text-[14px] font-medium text-blue-600 hover:underline cursor-pointer">{selectedClient.email || 'No especificado'}</div>
                       </div>
                     </div>
@@ -582,16 +582,16 @@ export default function AdminPanel() {
 
                   {/* Business Card */}
                   <div>
-                    <h3 className="text-[11px] font-semibold text-slate-400 uppercase tracking-[0.08em] mb-5 flex items-center gap-2 after:content-[''] after:flex-1 after:h-px after:bg-slate-200"><Building2 size={14}/> DATOS DEL NEGOCIO</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-5">
+                    <h3 className="text-[11px] font-semibold text-slate-400 uppercase tracking-[0.08em] mb-4 flex items-center gap-2 after:content-[''] after:flex-1 after:h-px after:bg-slate-200"><Building2 size={14}/> DATOS DEL NEGOCIO</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-4">
                       <div>
-                        <div className="text-[12px] text-slate-500 mb-1">Categoría / Industria</div>
+                        <div className="text-[12px] text-slate-500 mb-0.5">Categoría / Industria</div>
                         <div className="text-[14px] font-medium text-slate-900">{selectedClient.category || 'No especificada'}</div>
                       </div>
                       <div>
-                        <div className="text-[12px] text-slate-500 mb-1">Sitio Web</div>
+                        <div className="text-[12px] text-slate-500 mb-0.5">Sitio Web</div>
                         {selectedClient.website ? (
-                          <a href={selectedClient.website} target="_blank" rel="noreferrer" className="text-[14px] font-medium text-blue-600 hover:underline flex items-center gap-1">
+                          <a href={selectedClient.website} target="_blank" rel="noreferrer" className="text-[14px] font-medium text-slate-400 hover:text-blue-600 hover:underline flex items-center gap-1 transition-colors">
                             {selectedClient.website} <ArrowUpRight size={14} />
                           </a>
                         ) : (
@@ -599,8 +599,8 @@ export default function AdminPanel() {
                         )}
                       </div>
                       <div className="sm:col-span-2">
-                        <div className="text-[12px] text-slate-500 mb-2">Descripción / Notas del cliente</div>
-                        <div className="bg-[#FFFDF5] border border-amber-200/60 rounded-lg p-4 text-[13.5px] text-amber-900 leading-relaxed">
+                        <div className="text-[12px] text-slate-500 mb-1.5">Descripción / Notas del cliente</div>
+                        <div className="bg-amber-50/10 border border-amber-200/20 rounded-lg p-3 text-[13.5px] text-amber-900 leading-relaxed">
                           {selectedClient.description || 'Sin notas adicionales.'}
                         </div>
                       </div>
@@ -609,19 +609,19 @@ export default function AdminPanel() {
 
                   {/* Location Card */}
                   <div>
-                    <h3 className="text-[11px] font-semibold text-slate-400 uppercase tracking-[0.08em] mb-5 flex items-center gap-2 after:content-[''] after:flex-1 after:h-px after:bg-slate-200"><MapPin size={14}/> UBICACIÓN</h3>
-                    <div className="space-y-5">
+                    <h3 className="text-[11px] font-semibold text-slate-400 uppercase tracking-[0.08em] mb-4 flex items-center gap-2 after:content-[''] after:flex-1 after:h-px after:bg-slate-200"><MapPin size={14}/> UBICACIÓN</h3>
+                    <div className="space-y-4">
                       <div>
-                        <div className="text-[12px] text-slate-500 mb-1">Dirección Exacta</div>
+                        <div className="text-[12px] text-slate-500 mb-0.5">Dirección Exacta</div>
                         <div className="text-[14px] font-medium text-slate-900 leading-snug">{selectedClient.address || 'No especificada'}</div>
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <div className="text-[12px] text-slate-500 mb-1">Ciudad</div>
+                          <div className="text-[12px] text-slate-500 mb-0.5">Ciudad</div>
                           <div className="text-[14px] font-medium text-slate-900">{selectedClient.city || '-'}</div>
                         </div>
                         <div>
-                          <div className="text-[12px] text-slate-500 mb-1">País</div>
+                          <div className="text-[12px] text-slate-500 mb-0.5">País</div>
                           <div className="text-[14px] font-medium text-slate-900">{selectedClient.country || '-'}</div>
                         </div>
                       </div>
