@@ -535,28 +535,28 @@ export default function AdminPanel() {
                 {/* Quick Action Bar */}
                 <div className="flex flex-wrap gap-2.5 mb-6">
                   {selectedClient.phone && (
-                    <a href={`https://wa.me/${selectedClient.phone.replace(/\D/g,'')}`} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 bg-[#25D366] hover:bg-[#20bd5a] active:scale-97 text-white px-4 py-2 rounded-lg font-medium text-[13px] transition-all">
+                    <a href={`https://wa.me/${selectedClient.phone.replace(/\D/g,'')}`} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 bg-[#25D366] hover:bg-[#20bd5a] active:scale-97 text-white px-3 py-1.5 rounded-full font-medium text-[12px] transition-all">
                       <MessageCircle size={14} /> WhatsApp
                     </a>
                   )}
-                  <a href={`mailto:${selectedClient.email}`} className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 active:scale-97 text-white px-4 py-2 rounded-lg font-medium text-[13px] transition-all">
+                  <a href={`mailto:${selectedClient.email}`} className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 active:scale-97 text-white px-3 py-1.5 rounded-full font-medium text-[12px] transition-all">
                     <Mail size={14} /> Email
                   </a>
                   {selectedClient.phone && (
-                    <a href={`tel:${selectedClient.phone}`} className="flex items-center gap-1.5 bg-white border border-slate-200 hover:bg-slate-50 active:scale-97 text-slate-700 px-4 py-2 rounded-lg font-medium text-[13px] transition-all shadow-sm">
+                    <a href={`tel:${selectedClient.phone}`} className="flex items-center gap-1.5 bg-white border border-slate-200 hover:bg-slate-50 active:scale-97 text-slate-700 px-3 py-1.5 rounded-full font-medium text-[12px] transition-all shadow-sm">
                       <Phone size={14} /> Llamar
                     </a>
                   )}
                   
                   <button 
                     onClick={() => updateStatus(selectedClient.id, 'pending')}
-                    className="flex items-center gap-1.5 bg-white border border-slate-200 hover:bg-slate-50 active:scale-97 text-slate-700 px-4 py-2 rounded-lg font-medium text-[13px] transition-all shadow-sm ml-auto"
+                    className="flex items-center gap-1.5 bg-white border border-slate-200 hover:bg-slate-50 active:scale-97 text-slate-700 px-3 py-1.5 rounded-full font-medium text-[12px] transition-all shadow-sm ml-auto"
                   >
                     <ArrowUpRight size={14} /> Nuevo
                   </button>
                   <button 
                     onClick={() => updateStatus(selectedClient.id, 'contacted')}
-                    className="flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 active:scale-97 text-emerald-700 px-4 py-2 rounded-lg font-medium text-[13px] transition-all"
+                    className="flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 active:scale-97 text-emerald-700 px-3 py-1.5 rounded-full font-medium text-[12px] transition-all"
                   >
                     <CheckCircle2 size={14} /> En Gestión
                   </button>
