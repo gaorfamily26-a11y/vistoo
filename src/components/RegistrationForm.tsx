@@ -1026,55 +1026,52 @@ export default function RegistrationForm() {
 
             
 
-        <div className="form-card" id="formCard" style={{ maxWidth: '500px', margin: '0 auto', padding: '2rem', position: 'relative' }}>
-          <button 
-            onClick={() => setShowForm(false)}
-            style={{ position: 'absolute', top: '1rem', right: '1rem', background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', color: 'var(--muted)' }}
-            title="Volver a la web"
-          >
-            ×
-          </button>
-          {currentStep === 1 ? (
-            <div className="step-panel active" style={{ display: 'block' }}>
-              <div className="step-header" style={{ textAlign: 'center', marginBottom: '2rem' }}>
-                <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--text)' }}>Activa tu negocio hoy</h2>
-                <p style={{ color: 'var(--muted)', fontSize: '0.95rem', marginTop: '0.5rem' }}>Déjanos tus datos básicos y un asesor te contactará por WhatsApp para activar tu perfil en Google Maps.</p>
+            <div className="bg-white rounded-2xl shadow-xl border border-slate-200 max-w-lg mx-auto p-8 relative">
+              <button 
+                onClick={() => setShowForm(false)}
+                className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors"
+                title="Volver a la web"
+              >
+                <X size={24} />
+              </button>
+              {currentStep === 1 ? (
+            <div className="block">
+              <div className="text-center mb-8">
+                <h2 className="text-2xl font-bold text-slate-900">Activa tu negocio hoy</h2>
+                <p className="text-slate-500 text-sm mt-2">Déjanos tus datos básicos y un asesor te contactará por WhatsApp para activar tu perfil en Google Maps.</p>
               </div>
-              <div className="form-grid" style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              <div className="flex flex-col gap-5">
                 <motion.div 
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1 }}
-                  className="field"
                 >
-                  <label style={{ fontWeight: '600', color: 'var(--text)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <User size={16} className="text-blue-500" /> Nombre completo <span className="required" style={{ color: 'red' }}>*</span>
+                  <label className="flex items-center gap-2 font-semibold text-slate-700 mb-2 text-sm">
+                    <User size={16} className="text-blue-500" /> Nombre completo <span className="text-red-500">*</span>
                   </label>
-                  <input type="text" id="ownerName" placeholder="Ej: Juan Pérez" value={formData.ownerName} onChange={handleInputChange} style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border)', outline: 'none', transition: 'all 0.3s ease' }} onFocus={(e) => e.target.style.borderColor = '#3b82f6'} onBlur={(e) => e.target.style.borderColor = 'var(--border)'} />
+                  <input type="text" id="ownerName" placeholder="Ej: Juan Pérez" value={formData.ownerName} onChange={handleInputChange} className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all text-slate-900" />
                 </motion.div>
                 
                 <motion.div 
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="field"
                 >
-                  <label style={{ fontWeight: '600', color: 'var(--text)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <Building2 size={16} className="text-blue-500" /> Nombre de tu negocio <span className="required" style={{ color: 'red' }}>*</span>
+                  <label className="flex items-center gap-2 font-semibold text-slate-700 mb-2 text-sm">
+                    <Building2 size={16} className="text-blue-500" /> Nombre de tu negocio <span className="text-red-500">*</span>
                   </label>
-                  <input type="text" id="businessName" placeholder="Ej: Restaurante El Rincón" value={formData.businessName} onChange={handleInputChange} style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border)', outline: 'none', transition: 'all 0.3s ease' }} onFocus={(e) => e.target.style.borderColor = '#3b82f6'} onBlur={(e) => e.target.style.borderColor = 'var(--border)'} />
+                  <input type="text" id="businessName" placeholder="Ej: Restaurante El Rincón" value={formData.businessName} onChange={handleInputChange} className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all text-slate-900" />
                 </motion.div>
 
                 <motion.div 
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.3 }}
-                  className="field"
                 >
-                  <label style={{ fontWeight: '600', color: 'var(--text)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <MapPin size={16} className="text-blue-500" /> País <span className="required" style={{ color: 'red' }}>*</span>
+                  <label className="flex items-center gap-2 font-semibold text-slate-700 mb-2 text-sm">
+                    <MapPin size={16} className="text-blue-500" /> País <span className="text-red-500">*</span>
                   </label>
-                  <select id="country" value={formData.country} onChange={handleInputChange} style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border)', outline: 'none', backgroundColor: 'white', transition: 'all 0.3s ease' }} onFocus={(e) => e.target.style.borderColor = '#3b82f6'} onBlur={(e) => e.target.style.borderColor = 'var(--border)'}>
+                  <select id="country" value={formData.country} onChange={handleInputChange} className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all text-slate-900 bg-white">
                     <option value="">Selecciona tu país...</option>
                     <option value="PE">🇵🇪 Perú</option>
                     <option value="MX">🇲🇽 México</option>
@@ -1096,22 +1093,21 @@ export default function RegistrationForm() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="field"
                 >
-                  <label style={{ fontWeight: '600', color: 'var(--text)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <Phone size={16} className="text-blue-500" /> WhatsApp <span className="required" style={{ color: 'red' }}>*</span>
+                  <label className="flex items-center gap-2 font-semibold text-slate-700 mb-2 text-sm">
+                    <Phone size={16} className="text-blue-500" /> WhatsApp <span className="text-red-500">*</span>
                   </label>
-                  <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  <div className="flex gap-2">
                     {formData.country && COUNTRY_CODES[formData.country] && (
                       <motion.div 
                         initial={{ scale: 0.8, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
-                        style={{ padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border)', backgroundColor: '#f0fdf4', color: '#166534', fontWeight: 'bold', display: 'flex', alignItems: 'center' }}
+                        className="px-4 py-3 rounded-lg border border-emerald-200 bg-emerald-50 text-emerald-700 font-bold flex items-center"
                       >
                         {COUNTRY_CODES[formData.country]}
                       </motion.div>
                     )}
-                    <input type="tel" id="phone" placeholder={formData.country && COUNTRY_CODES[formData.country] ? "Ej: 1234 5678" : "Ej: +52 55 1234 5678"} value={formData.phone} onChange={handleInputChange} style={{ flex: 1, padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border)', outline: 'none', transition: 'all 0.3s ease' }} onFocus={(e) => e.target.style.borderColor = '#3b82f6'} onBlur={(e) => e.target.style.borderColor = 'var(--border)'} />
+                    <input type="tel" id="phone" placeholder={formData.country && COUNTRY_CODES[formData.country] ? "Ej: 1234 5678" : "Ej: +52 55 1234 5678"} value={formData.phone} onChange={handleInputChange} className="flex-1 px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all text-slate-900" />
                   </div>
                 </motion.div>
 
@@ -1119,34 +1115,14 @@ export default function RegistrationForm() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 }}
-                  whileHover={{ scale: 1.02, boxShadow: "0 10px 25px -5px rgba(59, 130, 246, 0.5)" }}
+                  whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={handleSubmit} 
                   disabled={isSubmitting}
-                  style={{ 
-                    width: '100%', 
-                    padding: '1rem', 
-                    fontSize: '1.1rem', 
-                    marginTop: '1rem', 
-                    borderRadius: '12px', 
-                    fontWeight: 'bold', 
-                    background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)', 
-                    color: 'white', 
-                    border: 'none', 
-                    cursor: 'pointer', 
-                    display: 'flex', 
-                    justifyContent: 'center', 
-                    alignItems: 'center', 
-                    gap: '0.5rem',
-                    boxShadow: '0 4px 14px 0 rgba(59, 130, 246, 0.39)'
-                  }}
+                  className="w-full py-4 px-6 mt-4 rounded-xl font-bold text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg shadow-blue-500/30 flex justify-center items-center gap-2 transition-all disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? (
-                    <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-                      style={{ width: '20px', height: '20px', border: '3px solid rgba(255,255,255,0.3)', borderTopColor: 'white', borderRadius: '50%' }}
-                    />
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                   ) : (
                     <>
                       <Sparkles size={20} />
@@ -1159,7 +1135,7 @@ export default function RegistrationForm() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.6 }}
-                  style={{ textAlign: 'center', fontSize: '0.8rem', color: 'var(--muted)', marginTop: '0.5rem' }}
+                  className="text-center text-xs text-slate-500 mt-2"
                 >
                   Tus datos están seguros. No enviamos spam.
                 </motion.p>
@@ -1168,9 +1144,7 @@ export default function RegistrationForm() {
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.7 }}
                   onClick={() => setShowForm(false)}
-                  style={{ width: '100%', padding: '0.75rem', fontSize: '0.9rem', marginTop: '0.5rem', borderRadius: '8px', background: 'transparent', color: 'var(--muted)', border: '1px solid var(--border)', cursor: 'pointer', transition: 'all 0.2s' }}
-                  onMouseOver={(e) => e.currentTarget.style.background = '#f1f5f9'}
-                  onMouseOut={(e) => e.currentTarget.style.background = 'transparent'}
+                  className="w-full py-3 mt-2 rounded-lg text-slate-500 border border-slate-200 hover:bg-slate-50 transition-colors text-sm font-medium"
                 >
                   Volver a la web
                 </motion.button>
@@ -1181,26 +1155,25 @@ export default function RegistrationForm() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, type: "spring" }}
-              className="success-screen active visible" style={{ textAlign: 'center', padding: '2rem 0', display: 'block' }}
+              className="text-center py-8"
             >
               <motion.div 
                 initial={{ scale: 0 }}
                 animate={{ scale: 1, rotate: [0, 10, -10, 0] }}
                 transition={{ delay: 0.2, duration: 0.5 }}
-                className="success-icon" style={{ fontSize: '4rem', marginBottom: '1rem' }}
+                className="text-6xl mb-4"
               >
                 🎉
               </motion.div>
-              <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--text)', marginBottom: '1rem' }}>¡Solicitud enviada!</h2>
-              <p style={{ color: 'var(--muted)', marginBottom: '1.5rem' }}>Hemos recibido tus datos.<br />Un asesor te contactará por WhatsApp en breve para activar tu negocio.</p>
+              <h2 className="text-2xl font-bold text-slate-900 mb-4">¡Solicitud enviada!</h2>
+              <p className="text-slate-500 mb-6">Hemos recibido tus datos.<br />Un asesor te contactará por WhatsApp en breve para activar tu negocio.</p>
               <button 
-                className="btn btn-secondary" 
                 onClick={() => {
                   setCurrentStep(1);
                   setFormData({ ...formData, businessName: '', ownerName: '', phone: '' });
                   setShowForm(false);
                 }}
-                style={{ padding: '0.75rem 1.5rem', borderRadius: '8px', border: '1px solid var(--border)', background: 'white', cursor: 'pointer' }}
+                className="px-6 py-3 rounded-lg border border-slate-200 bg-white text-slate-700 font-medium hover:bg-slate-50 transition-colors"
               >
                 Volver a la web
               </button>
