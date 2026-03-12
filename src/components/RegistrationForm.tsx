@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, ChangeEvent } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { User, Building2, MapPin, Phone, Rocket, Sparkles } from 'lucide-react';
+import { User, Building2, MapPin, Phone, Rocket, Sparkles, X } from 'lucide-react';
 import { supabase } from '../services/supabase';
 import Logo from './Logo';
 

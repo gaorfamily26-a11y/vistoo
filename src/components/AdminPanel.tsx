@@ -157,7 +157,7 @@ export default function AdminPanel() {
 
   if (!isAuthenticated) {
     return (
-      <div className="fixed inset-0 bg-[#0D1117] flex items-center justify-center p-4 font-sans z-[100] overflow-hidden">
+      <div className="fixed inset-0 bg-[#0F1117] flex items-center justify-center p-4 font-sans z-[100] overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(37,99,235,0.35)_0%,transparent_70%),radial-gradient(ellipse_60%_50%_at_80%_80%,rgba(99,102,241,0.2)_0%,transparent_60%),radial-gradient(ellipse_50%_40%_at_10%_90%,rgba(16,185,129,0.1)_0%,transparent_60%)] animate-bg-pulse"></div>
         <div className="absolute inset-0 login-grid"></div>
         <motion.div 
@@ -200,6 +200,21 @@ export default function AdminPanel() {
     );
   }
 
+  const getAvatarGradient = (name: string) => {
+    const gradients = [
+      'from-blue-600 to-purple-600',
+      'from-sky-500 to-emerald-500',
+      'from-amber-500 to-red-500',
+      'from-pink-500 to-rose-500',
+      'from-indigo-500 to-cyan-500',
+      'from-teal-500 to-blue-500',
+      'from-orange-500 to-amber-500'
+    ];
+    if (!name) return gradients[0];
+    const charCode = name.charCodeAt(0);
+    return gradients[charCode % gradients.length];
+  };
+
   const getStatusBadge = (status: string) => {
     switch(status) {
       case 'completed':
@@ -228,9 +243,9 @@ export default function AdminPanel() {
   };
 
   return (
-    <div className="fixed inset-0 bg-[#F0F4FF] flex font-sans text-slate-900 z-[100]">
+    <div className="fixed inset-0 bg-[#F8FAFF] flex font-sans text-slate-900 z-[100]">
       {/* SIDEBAR */}
-      <aside className="w-[220px] bg-[#0D1117] text-slate-300 flex flex-col hidden md:flex shrink-0 relative sidebar-gradient-border border-r border-white/5">
+      <aside className="w-[220px] bg-[#0F1117] text-slate-300 flex flex-col hidden md:flex shrink-0 relative sidebar-gradient-border border-r border-white/5">
         <div className="flex items-center gap-2.5 px-2 py-1 mb-5 mx-3 mt-5 border-b border-white/5 pb-5">
           <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-display font-bold text-sm text-white shadow-[0_4px_12px_rgba(37,99,235,0.35)]">
             V
@@ -246,7 +261,7 @@ export default function AdminPanel() {
               Panel de Leads
               <span className="ml-auto bg-blue-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center">3</span>
             </button>
-            <button className="w-full flex items-center gap-2.5 text-white/45 hover:bg-white/5 hover:text-white/75 px-2.5 py-[9px] rounded-lg font-medium transition-colors text-[13.5px]">
+            <button className="w-full flex items-center gap-2.5 text-white/45 hover:bg-white/5 hover:backdrop-blur-md hover:text-white/75 px-2.5 py-[9px] rounded-lg font-medium transition-colors text-[13.5px]">
               <Users size={15} />
               Directorio
             </button>
@@ -254,7 +269,7 @@ export default function AdminPanel() {
 
           <div className="text-[10px] font-semibold text-white/20 uppercase tracking-[0.1em] mb-1.5 px-2">Configuración</div>
           <nav className="space-y-0.5">
-            <button className="w-full flex items-center gap-2.5 text-white/45 hover:bg-white/5 hover:text-white/75 px-2.5 py-[9px] rounded-lg font-medium transition-colors text-[13.5px]">
+            <button className="w-full flex items-center gap-2.5 text-white/45 hover:bg-white/5 hover:backdrop-blur-md hover:text-white/75 px-2.5 py-[9px] rounded-lg font-medium transition-colors text-[13.5px]">
               <Settings size={15} />
               Ajustes
             </button>
@@ -262,7 +277,7 @@ export default function AdminPanel() {
         </div>
 
         <div className="pt-4 border-t border-white/5 mx-3 mb-5">
-          <div className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg hover:bg-white/5 cursor-pointer transition-colors group">
+          <div className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg hover:bg-white/5 hover:backdrop-blur-md cursor-pointer transition-colors group">
             <div className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-[11px] shrink-0">
               AD
             </div>
@@ -282,7 +297,7 @@ export default function AdminPanel() {
       </aside>
 
       {/* MAIN CONTENT */}
-      <main className="flex-1 flex flex-col min-w-0 overflow-hidden bg-[#F0F4FF] relative">
+      <main className="flex-1 flex flex-col min-w-0 overflow-hidden bg-[#F8FAFF] relative">
         {/* Top Header */}
         <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 sm:px-6 lg:px-8 shrink-0">
           <div className="flex items-center gap-4">
@@ -405,18 +420,10 @@ export default function AdminPanel() {
                       </tr>
                     ) : (
                       filteredClients.map((client, index) => {
-                        // Generate a pseudo-random gradient based on the client ID or index
-                        const gradients = [
-                          'from-blue-600 to-purple-600',
-                          'from-sky-500 to-emerald-500',
-                          'from-amber-500 to-red-500',
-                          'from-pink-500 to-rose-500',
-                          'from-indigo-500 to-cyan-500'
-                        ];
-                        const gradientClass = gradients[index % gradients.length];
+                        const gradientClass = getAvatarGradient(client.businessName || '');
 
                         return (
-                        <tr key={client.id} className="hover:bg-[#F8FAFF] transition-colors duration-200 group cursor-pointer" onClick={() => setSelectedClient(client)}>
+                        <tr key={client.id} className="hover:bg-slate-50 transition-colors duration-200 group cursor-pointer" onClick={() => setSelectedClient(client)}>
                           <td className="px-5 py-3.5">
                             <div className="flex items-center gap-3">
                               <div className={`w-[34px] h-[34px] rounded-[9px] bg-gradient-to-br ${gradientClass} flex items-center justify-center font-display font-bold text-xs text-white shrink-0`}>
@@ -506,7 +513,7 @@ export default function AdminPanel() {
               <div className="bg-white border-b border-slate-200 px-6 pt-5 pb-0 shrink-0 sticky top-0 z-20">
                 <div className="flex justify-between items-start mb-4">
                   <div className="flex items-center gap-3.5">
-                    <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center font-display font-bold text-lg text-white shrink-0 shadow-[0_4px_12px_rgba(37,99,235,0.3)]">
+                    <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${getAvatarGradient(selectedClient.businessName || '')} flex items-center justify-center font-display font-bold text-lg text-white shrink-0 shadow-[0_4px_12px_rgba(37,99,235,0.3)]`}>
                       {selectedClient.businessName?.substring(0,1).toUpperCase() || 'N'}
                     </div>
                     <div>
@@ -519,7 +526,7 @@ export default function AdminPanel() {
                   </div>
                   <button 
                     onClick={() => setSelectedClient(null)}
-                    className="w-8 h-8 flex items-center justify-center bg-transparent border border-slate-200 hover:bg-[#F0F4FF] hover:text-slate-900 rounded-lg text-slate-500 transition-colors"
+                    className="w-8 h-8 flex items-center justify-center bg-transparent border border-slate-200 hover:bg-slate-50 hover:text-slate-900 rounded-lg text-slate-500 transition-colors"
                   >
                     <X size={14} />
                   </button>
