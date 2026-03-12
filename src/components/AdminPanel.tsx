@@ -6,7 +6,7 @@ import {
   Image as ImageIcon, CheckCircle, Clock3, X, LogOut, ExternalLink,
   LayoutDashboard, Users, Settings, Filter,
   MessageCircle, ChevronRight, Building2, Calendar, ArrowUpRight,
-  PlayCircle, MoreHorizontal, AlertCircle, CheckCircle2
+  PlayCircle, MoreHorizontal, AlertCircle, CheckCircle2, User
 } from 'lucide-react';
 import Logo from './Logo';
 
@@ -164,11 +164,11 @@ export default function AdminPanel() {
           initial={{ opacity: 0, y: 24, scale: 0.97 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="glass-card p-10 sm:p-12 rounded-3xl w-full max-w-md relative z-10"
+          className="bg-[#1A1D24] border border-white/5 p-10 sm:p-12 rounded-3xl w-full max-w-md relative z-10 shadow-2xl"
         >
           <div className="text-center mb-8">
             <div className="flex justify-center mb-5">
-              <div className="w-[52px] h-[52px] bg-blue-600 rounded-[14px] flex items-center justify-center font-display font-bold text-2xl text-white shadow-[0_8px_24px_rgba(37,99,235,0.4)]">
+              <div className="w-[52px] h-[52px] bg-blue-600 rounded-[14px] flex items-center justify-center font-display font-bold text-2xl text-white shadow-[0_0_20px_rgba(37,99,235,0.4)]">
                 V
               </div>
             </div>
@@ -184,13 +184,13 @@ export default function AdminPanel() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full px-4 py-[13px] bg-white/5 border border-white/10 rounded-lg focus:border-blue-500 focus:bg-blue-600/10 outline-none transition-all text-white text-[15px]"
+                className="w-full px-4 py-[13px] bg-[#222630] border border-white/5 rounded-lg focus:border-blue-500 focus:bg-[#2A2F3A] outline-none transition-all text-white text-[15px]"
                 required
               />
             </div>
             <button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 active:scale-[0.98] text-white font-semibold py-[14px] px-4 rounded-lg transition-all shadow-[0_4px_16px_rgba(37,99,235,0.4)] hover:shadow-[0_6px_20px_rgba(37,99,235,0.5)] text-[15px]"
+              className="w-full bg-blue-600 hover:bg-blue-700 active:scale-[0.98] text-white font-semibold py-[14px] px-4 rounded-lg transition-all shadow-[0_0_20px_rgba(37,99,235,0.4)] text-[15px]"
             >
               Iniciar Sesión
             </button>
@@ -533,181 +533,162 @@ export default function AdminPanel() {
                 </div>
 
                 {/* Quick Action Bar */}
-                <div className="flex gap-2 mb-4">
+                <div className="flex flex-wrap gap-2.5 mb-6">
                   {selectedClient.phone && (
-                    <a href={`https://wa.me/${selectedClient.phone.replace(/\D/g,'')}`} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 bg-[#25D366] hover:brightness-95 active:scale-97 text-white px-3.5 py-2 rounded-lg font-semibold text-[13px] transition-all">
-                      <MessageCircle size={13} /> WhatsApp
+                    <a href={`https://wa.me/${selectedClient.phone.replace(/\D/g,'')}`} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 bg-[#25D366] hover:bg-[#20bd5a] active:scale-97 text-white px-4 py-2 rounded-lg font-medium text-[13px] transition-all">
+                      <MessageCircle size={14} /> WhatsApp
                     </a>
                   )}
-                  <a href={`mailto:${selectedClient.email}`} className="flex items-center gap-1.5 bg-blue-600 hover:brightness-95 active:scale-97 text-white px-3.5 py-2 rounded-lg font-semibold text-[13px] transition-all">
-                    <Mail size={13} /> Email
+                  <a href={`mailto:${selectedClient.email}`} className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 active:scale-97 text-white px-4 py-2 rounded-lg font-medium text-[13px] transition-all">
+                    <Mail size={14} /> Email
                   </a>
                   {selectedClient.phone && (
-                    <a href={`tel:${selectedClient.phone}`} className="flex items-center gap-1.5 bg-transparent border border-slate-200 hover:brightness-95 active:scale-97 text-slate-600 px-3.5 py-2 rounded-lg font-semibold text-[13px] transition-all">
-                      <Phone size={13} /> Llamar
+                    <a href={`tel:${selectedClient.phone}`} className="flex items-center gap-1.5 bg-white border border-slate-200 hover:bg-slate-50 active:scale-97 text-slate-700 px-4 py-2 rounded-lg font-medium text-[13px] transition-all shadow-sm">
+                      <Phone size={14} /> Llamar
                     </a>
                   )}
                   
-                  {/* Status Changer Dropdown (Simulated with buttons for now) */}
-                  <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-lg ml-auto">
-                    <button 
-                      onClick={() => updateStatus(selectedClient.id, 'pending')}
-                      className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${selectedClient.status === 'pending' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
-                    >Nuevo</button>
-                    <button 
-                      onClick={() => updateStatus(selectedClient.id, 'contacted')}
-                      className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${selectedClient.status === 'contacted' ? 'bg-white text-amber-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
-                    >En Gestión</button>
-                    <button 
-                      onClick={() => updateStatus(selectedClient.id, 'completed')}
-                      className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${selectedClient.status === 'completed' ? 'bg-white text-emerald-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
-                    >Convertido</button>
-                  </div>
+                  <button 
+                    onClick={() => updateStatus(selectedClient.id, 'pending')}
+                    className="flex items-center gap-1.5 bg-white border border-slate-200 hover:bg-slate-50 active:scale-97 text-slate-700 px-4 py-2 rounded-lg font-medium text-[13px] transition-all shadow-sm ml-auto"
+                  >
+                    <ArrowUpRight size={14} /> Nuevo
+                  </button>
+                  <button 
+                    onClick={() => updateStatus(selectedClient.id, 'contacted')}
+                    className="flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 active:scale-97 text-emerald-700 px-4 py-2 rounded-lg font-medium text-[13px] transition-all"
+                  >
+                    <CheckCircle2 size={14} /> En Gestión
+                  </button>
                 </div>
 
                 {/* Pipeline Steps */}
-                <div className="flex gap-0 -mb-px">
-                  <div className="px-4 py-2.5 text-[12.5px] font-semibold text-blue-600 border-b-2 border-blue-600 cursor-pointer whitespace-nowrap">Información General</div>
-                  <div className="px-4 py-2.5 text-[12.5px] font-medium text-slate-500 hover:text-slate-900 border-b-2 border-transparent cursor-pointer whitespace-nowrap transition-colors">Archivos & Fotos</div>
-                  <div className="px-4 py-2.5 text-[12.5px] font-medium text-slate-500 hover:text-slate-900 border-b-2 border-transparent cursor-pointer whitespace-nowrap transition-colors">Notas Internas</div>
+                <div className="flex gap-6 -mb-px border-b border-slate-200">
+                  <div className="pb-3 text-[13px] font-semibold text-blue-600 border-b-2 border-blue-600 cursor-pointer whitespace-nowrap">Información General</div>
+                  <div className="pb-3 text-[13px] font-medium text-slate-500 hover:text-slate-900 border-b-2 border-transparent cursor-pointer whitespace-nowrap transition-colors">Archivos & Fotos</div>
+                  <div className="pb-3 text-[13px] font-medium text-slate-500 hover:text-slate-900 border-b-2 border-transparent cursor-pointer whitespace-nowrap transition-colors">Notas Internas</div>
                 </div>
               </div>
 
               <div className="p-6 sm:p-8 flex-1 bg-white">
-                <div className="space-y-6">
+                <div className="space-y-8">
                   
                   {/* Contact Card */}
-                  <div className="mb-5">
-                    <h3 className="text-[11px] font-semibold text-slate-400 uppercase tracking-[0.08em] mb-3 flex items-center gap-1.5 after:content-[''] after:flex-1 after:h-px after:bg-slate-200"><Users size={12}/> Contacto Principal</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <h3 className="text-[11px] font-semibold text-slate-400 uppercase tracking-[0.08em] mb-5 flex items-center gap-2 after:content-[''] after:flex-1 after:h-px after:bg-slate-200"><User size={14}/> CONTACTO PRINCIPAL</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-5">
                       <div>
-                        <div className="text-[11px] font-medium text-slate-400 mb-1">Nombre Completo</div>
-                        <div className="text-[13.5px] font-medium text-slate-900">{selectedClient.ownerName}</div>
+                        <div className="text-[12px] text-slate-500 mb-1">Nombre Completo</div>
+                        <div className="text-[14px] font-medium text-slate-900">{selectedClient.ownerName}</div>
                       </div>
                       <div>
-                        <div className="text-[11px] font-medium text-slate-400 mb-1">Teléfono Directo</div>
-                        <div className="text-[13.5px] font-medium text-slate-900">{selectedClient.phone || 'No especificado'}</div>
+                        <div className="text-[12px] text-slate-500 mb-1">Teléfono Directo</div>
+                        <div className="text-[14px] font-medium text-slate-900">{selectedClient.phone || 'No especificado'}</div>
                       </div>
                       <div className="sm:col-span-2">
-                        <div className="text-[11px] font-medium text-slate-400 mb-1">Correo Electrónico</div>
-                        <div className="text-[13.5px] font-medium text-blue-600 hover:underline cursor-pointer">{selectedClient.email || 'No especificado'}</div>
+                        <div className="text-[12px] text-slate-500 mb-1">Correo Electrónico</div>
+                        <div className="text-[14px] font-medium text-blue-600 hover:underline cursor-pointer">{selectedClient.email || 'No especificado'}</div>
                       </div>
                     </div>
                   </div>
 
                   {/* Business Card */}
-                  <div className="mb-5">
-                    <h3 className="text-[11px] font-semibold text-slate-400 uppercase tracking-[0.08em] mb-3 flex items-center gap-1.5 after:content-[''] after:flex-1 after:h-px after:bg-slate-200"><Building2 size={12}/> Datos del Negocio</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <h3 className="text-[11px] font-semibold text-slate-400 uppercase tracking-[0.08em] mb-5 flex items-center gap-2 after:content-[''] after:flex-1 after:h-px after:bg-slate-200"><Building2 size={14}/> DATOS DEL NEGOCIO</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-5">
                       <div>
-                        <div className="text-[11px] font-medium text-slate-400 mb-1">Categoría / Industria</div>
-                        <div className="text-[13.5px] font-medium text-slate-900">{selectedClient.category || 'No especificada'}</div>
+                        <div className="text-[12px] text-slate-500 mb-1">Categoría / Industria</div>
+                        <div className="text-[14px] font-medium text-slate-900">{selectedClient.category || 'No especificada'}</div>
                       </div>
                       <div>
-                        <div className="text-[11px] font-medium text-slate-400 mb-1">Sitio Web</div>
+                        <div className="text-[12px] text-slate-500 mb-1">Sitio Web</div>
                         {selectedClient.website ? (
-                          <a href={selectedClient.website} target="_blank" rel="noreferrer" className="text-[13.5px] font-medium text-blue-600 hover:underline flex items-center gap-1">
-                            {selectedClient.website} <ArrowUpRight size={12} />
+                          <a href={selectedClient.website} target="_blank" rel="noreferrer" className="text-[14px] font-medium text-blue-600 hover:underline flex items-center gap-1">
+                            {selectedClient.website} <ArrowUpRight size={14} />
                           </a>
                         ) : (
-                          <div className="text-[13.5px] font-medium text-slate-400 italic">No cuenta con sitio web</div>
+                          <div className="text-[14px] text-slate-400 italic">No cuenta con sitio web</div>
                         )}
                       </div>
                       <div className="sm:col-span-2">
-                        <div className="text-[11px] font-medium text-slate-400 mb-1">Descripción / Notas del cliente</div>
-                        <div className="bg-[#FFFBF0] border border-[#FDE68A] border-l-[3px] border-l-amber-500 rounded-md p-3 text-[13px] text-[#78350F] leading-relaxed">
+                        <div className="text-[12px] text-slate-500 mb-2">Descripción / Notas del cliente</div>
+                        <div className="bg-[#FFFDF5] border border-amber-200/60 rounded-lg p-4 text-[13.5px] text-amber-900 leading-relaxed">
                           {selectedClient.description || 'Sin notas adicionales.'}
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Right Column: Location & Schedule */}
-                  <div className="space-y-6">
-                    {/* Location Card */}
-                    <div className="mb-5">
-                      <h3 className="text-[11px] font-semibold text-slate-400 uppercase tracking-[0.08em] mb-3 flex items-center gap-1.5 after:content-[''] after:flex-1 after:h-px after:bg-slate-200"><MapPin size={12}/> Ubicación</h3>
-                      <div className="space-y-3">
+                  {/* Location Card */}
+                  <div>
+                    <h3 className="text-[11px] font-semibold text-slate-400 uppercase tracking-[0.08em] mb-5 flex items-center gap-2 after:content-[''] after:flex-1 after:h-px after:bg-slate-200"><MapPin size={14}/> UBICACIÓN</h3>
+                    <div className="space-y-5">
+                      <div>
+                        <div className="text-[12px] text-slate-500 mb-1">Dirección Exacta</div>
+                        <div className="text-[14px] font-medium text-slate-900 leading-snug">{selectedClient.address || 'No especificada'}</div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <div className="text-[11px] font-medium text-slate-400 mb-1">Dirección Exacta</div>
-                          <div className="text-[13.5px] font-medium text-slate-900 leading-snug">{selectedClient.address || 'No especificada'}</div>
+                          <div className="text-[12px] text-slate-500 mb-1">Ciudad</div>
+                          <div className="text-[14px] font-medium text-slate-900">{selectedClient.city || '-'}</div>
                         </div>
-                        <div className="grid grid-cols-2 gap-3">
-                          <div>
-                            <div className="text-[11px] font-medium text-slate-400 mb-1">Ciudad</div>
-                            <div className="text-[13.5px] font-medium text-slate-900">{selectedClient.city || '-'}</div>
-                          </div>
-                          <div>
-                            <div className="text-[11px] font-medium text-slate-400 mb-1">País</div>
-                            <div className="text-[13.5px] font-medium text-slate-900">{selectedClient.country || '-'}</div>
-                          </div>
+                        <div>
+                          <div className="text-[12px] text-slate-500 mb-1">País</div>
+                          <div className="text-[14px] font-medium text-slate-900">{selectedClient.country || '-'}</div>
                         </div>
-                        
-                        {selectedClient.lat && selectedClient.lng && (
-                          <div className="pt-1">
-                            <a 
-                              href={`https://www.google.com/maps/search/?api=1&query=${selectedClient.lat},${selectedClient.lng}`} 
-                              target="_blank" 
-                              rel="noreferrer"
-                              className="w-full flex items-center justify-center gap-1.5 bg-white border border-slate-200 hover:border-blue-500 hover:text-blue-600 hover:bg-blue-50 text-slate-600 px-3.5 py-2 rounded-lg font-semibold text-[13px] transition-all"
-                            >
-                              <MapPin size={13} /> Abrir en Google Maps
-                            </a>
+                      </div>
+                      
+                      {/* Horario Comercial */}
+                      <div className="pt-2">
+                        <h3 className="text-[11px] font-semibold text-slate-400 uppercase tracking-[0.08em] mb-3 flex items-center gap-2 after:content-[''] after:flex-1 after:h-px after:bg-slate-200"><Clock size={14}/> HORARIO COMERCIAL</h3>
+                        {selectedClient.schedule ? (
+                          <div className="space-y-2">
+                            {Object.entries(selectedClient.schedule).map(([day, data]: [string, any]) => {
+                              const dayNames: Record<string, string> = {
+                                monday: 'Lunes', tuesday: 'Martes', wednesday: 'Miércoles',
+                                thursday: 'Jueves', friday: 'Viernes', saturday: 'Sábado', sunday: 'Domingo'
+                              };
+                              return (
+                                <div key={day} className="flex justify-between items-center py-1 border-b border-slate-50 last:border-0">
+                                  <span className="text-[13px] text-slate-500">{dayNames[day]}</span>
+                                  <span className={`text-[13px] font-medium ${data.closed ? 'text-slate-400 italic' : 'text-slate-900'}`}>
+                                    {data.closed ? 'Cerrado' : `${data.open} - ${data.close}`}
+                                  </span>
+                                </div>
+                              );
+                            })}
                           </div>
+                        ) : (
+                          <div className="text-[13.5px] text-slate-400 italic">No se especificaron horarios.</div>
                         )}
                       </div>
                     </div>
-
-                    {/* Schedule Card */}
-                    <div className="mb-5">
-                      <h3 className="text-[11px] font-semibold text-slate-400 uppercase tracking-[0.08em] mb-3 flex items-center gap-1.5 after:content-[''] after:flex-1 after:h-px after:bg-slate-200"><Clock size={12}/> Horario Comercial</h3>
-                      {selectedClient.schedule ? (
-                        <div className="space-y-1.5">
-                          {Object.entries(selectedClient.schedule).map(([day, data]: [string, any]) => {
-                            const dayNames: Record<string, string> = {
-                              monday: 'Lunes', tuesday: 'Martes', wednesday: 'Miércoles',
-                              thursday: 'Jueves', friday: 'Viernes', saturday: 'Sábado', sunday: 'Domingo'
-                            };
-                            return (
-                              <div key={day} className="flex justify-between items-center py-1.5 border-b border-slate-100 last:border-0">
-                                <span className="font-medium text-[13px] text-slate-500">{dayNames[day]}</span>
-                                <span className={`text-[13px] font-medium ${data.closed ? 'text-red-500 bg-red-50 px-2 py-0.5 rounded' : 'text-slate-900'}`}>
-                                  {data.closed ? 'Cerrado' : `${data.open} - ${data.close}`}
-                                </span>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      ) : (
-                        <div className="text-[13.5px] font-medium text-slate-400 italic">No se especificaron horarios.</div>
-                      )}
-                    </div>
                   </div>
-                </div>
 
-                {/* Photos Section */}
-                <div className="mt-8">
-                  <h3 className="text-[11px] font-semibold text-slate-400 uppercase tracking-[0.08em] mb-4 flex items-center gap-1.5 after:content-[''] after:flex-1 after:h-px after:bg-slate-200"><ImageIcon size={12}/> Archivos Adjuntos ({selectedClient.photo_urls?.length || 0})</h3>
-                  {selectedClient.photo_urls && selectedClient.photo_urls.length > 0 ? (
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                      {selectedClient.photo_urls.map((url: string, i: number) => (
-                        <a key={i} href={url} target="_blank" rel="noreferrer" className="block aspect-square rounded-xl overflow-hidden border border-slate-200 hover:border-blue-500 transition-colors group relative shadow-sm">
-                          <img src={url} alt={`Foto ${i+1}`} className="w-full h-full object-cover" />
-                          <div className="absolute inset-0 bg-slate-900/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
-                            <ExternalLink className="text-white" size={20} />
-                          </div>
-                        </a>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="bg-white border-2 border-dashed border-slate-200 rounded-xl p-8 text-center">
-                      <ImageIcon className="mx-auto text-slate-300 mb-2" size={28} />
-                      <div className="text-[13.5px] font-medium text-slate-600">Sin fotografías</div>
-                      <div className="text-[11px] font-medium text-slate-400 mt-1">El cliente no subió imágenes de su negocio.</div>
-                    </div>
-                  )}
-                </div>
+                  {/* Photos Section */}
+                  <div>
+                    <h3 className="text-[11px] font-semibold text-slate-400 uppercase tracking-[0.08em] mb-5 flex items-center gap-2 after:content-[''] after:flex-1 after:h-px after:bg-slate-200"><ImageIcon size={14}/> ARCHIVOS ADJUNTOS ({selectedClient.photo_urls?.length || 0})</h3>
+                    {selectedClient.photo_urls && selectedClient.photo_urls.length > 0 ? (
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        {selectedClient.photo_urls.map((url: string, i: number) => (
+                          <a key={i} href={url} target="_blank" rel="noreferrer" className="block aspect-square rounded-xl overflow-hidden border border-slate-200 hover:border-blue-500 transition-colors group relative shadow-sm">
+                            <img src={url} alt={`Foto ${i+1}`} className="w-full h-full object-cover" />
+                            <div className="absolute inset-0 bg-slate-900/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+                              <ExternalLink className="text-white" size={20} />
+                            </div>
+                          </a>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="bg-transparent border border-dashed border-slate-300 rounded-xl p-10 text-center flex flex-col items-center justify-center">
+                        <ImageIcon className="text-slate-300 mb-3" size={32} />
+                        <div className="text-[14px] font-medium text-slate-500">Sin fotografías</div>
+                        <div className="text-[12px] text-slate-400 mt-1">El cliente no subió imágenes de su negocio.</div>
+                      </div>
+                    )}
+                  </div>
 
+                </div>
               </div>
             </motion.div>
           </motion.div>
