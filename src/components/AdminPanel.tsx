@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { supabase } from '../services/supabase';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Search, MapPin, Phone, Globe, Mail, Clock,
   Image as ImageIcon, X, LogOut, ExternalLink,
@@ -9,7 +9,7 @@ import {
   ArrowUpRight, PlayCircle, MoreHorizontal, CheckCircle2,
   User, Menu
 } from 'lucide-react';
-import Logo from './Logo';
+
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
