@@ -1,5 +1,0 @@
-{
-  "name": "MapReg - Business Registration System",
-  "description": "A system to automate the process of registering businesses on Google Maps, including a client-facing form and an admin panel.",
-  "requestFramePermissions": []
-}
