@@ -157,40 +157,38 @@ export default function AdminPanel() {
 
   if (!isAuthenticated) {
     return (
-      <div className="fixed inset-0 bg-[#0F1117] flex items-center justify-center p-4 font-sans z-[100] overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(37,99,235,0.35)_0%,transparent_70%),radial-gradient(ellipse_60%_50%_at_80%_80%,rgba(99,102,241,0.2)_0%,transparent_60%),radial-gradient(ellipse_50%_40%_at_10%_90%,rgba(16,185,129,0.1)_0%,transparent_60%)] animate-bg-pulse"></div>
-        <div className="absolute inset-0 login-grid"></div>
+      <div className="fixed inset-0 bg-slate-50 flex items-center justify-center p-4 font-sans z-[100]">
         <motion.div 
-          initial={{ opacity: 0, y: 24, scale: 0.97 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-[#1A1D24] border border-white/5 p-10 sm:p-12 rounded-3xl w-full max-w-md relative z-10 shadow-2xl"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+          className="bg-white border border-slate-200 p-8 sm:p-10 rounded-2xl w-full max-w-[400px] shadow-xl"
         >
           <div className="text-center mb-8">
-            <div className="flex justify-center mb-5">
-              <div className="w-[52px] h-[52px] bg-blue-600 rounded-[14px] flex items-center justify-center font-display font-bold text-2xl text-white shadow-[0_0_20px_rgba(37,99,235,0.4)]">
+            <div className="flex justify-center mb-4">
+              <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center font-display font-bold text-2xl text-white shadow-md">
                 V
               </div>
             </div>
-            <h1 className="text-[26px] font-display font-bold text-white mb-1.5 tracking-tight">Vistoo CRM</h1>
-            <p className="text-white/45 text-[13px] font-normal">Ingresa tu contraseña para continuar</p>
+            <h1 className="text-2xl font-display font-bold text-slate-900 mb-2 tracking-tight">Vistoo CRM</h1>
+            <p className="text-slate-500 text-sm">Ingresa tu contraseña para continuar</p>
           </div>
           
           <form onSubmit={handleLogin} className="space-y-5">
             <div>
-              <label className="block text-[11px] font-semibold text-white/35 uppercase tracking-[0.08em] mb-2">Contraseña de acceso</label>
+              <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">Contraseña de acceso</label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full px-4 py-[13px] bg-[#222630] border border-white/5 rounded-lg focus:border-blue-500 focus:bg-[#2A2F3A] outline-none transition-all text-white text-[15px]"
+                className="w-full px-4 py-3 bg-white border border-slate-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-slate-900 text-sm"
                 required
               />
             </div>
             <button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 active:scale-[0.98] text-white font-semibold py-[14px] px-4 rounded-lg transition-all shadow-[0_0_20px_rgba(37,99,235,0.4)] text-[15px]"
+              className="w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-medium py-3 px-4 rounded-lg transition-colors shadow-sm text-sm"
             >
               Iniciar Sesión
             </button>
@@ -201,32 +199,32 @@ export default function AdminPanel() {
   }
 
   const getAvatarGradient = (name: string) => {
-    const gradients = [
-      'from-blue-600 to-purple-600',
-      'from-sky-500 to-emerald-500',
-      'from-amber-500 to-red-500',
-      'from-pink-500 to-rose-500',
-      'from-indigo-500 to-cyan-500',
-      'from-teal-500 to-blue-500',
-      'from-orange-500 to-amber-500'
+    const colors = [
+      'bg-blue-600',
+      'bg-emerald-500',
+      'bg-amber-500',
+      'bg-rose-500',
+      'bg-indigo-500',
+      'bg-teal-500',
+      'bg-orange-500'
     ];
-    if (!name) return gradients[0];
+    if (!name) return colors[0];
     const charCode = name.charCodeAt(0);
-    return gradients[charCode % gradients.length];
+    return colors[charCode % colors.length];
   };
 
   const getStatusBadge = (status: string) => {
     switch(status) {
       case 'completed':
         return (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[12px] font-semibold bg-emerald-500/10 text-emerald-600 whitespace-nowrap">
+          <span className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-emerald-600 whitespace-nowrap">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
             Cliente Activo
           </span>
         );
       case 'contacted':
         return (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[12px] font-semibold bg-amber-500/10 text-amber-600 whitespace-nowrap">
+          <span className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-amber-500 whitespace-nowrap">
             <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0"></span>
             En Gestión
           </span>
@@ -234,8 +232,8 @@ export default function AdminPanel() {
       case 'pending':
       default:
         return (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[12px] font-semibold bg-blue-600/10 text-blue-600 whitespace-nowrap">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-600 shrink-0 shadow-[0_0_0_2px_rgba(37,99,235,0.25)] animate-pulse-dot"></span>
+          <span className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-blue-600 whitespace-nowrap">
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-600 shrink-0"></span>
             Nuevo Lead
           </span>
         );
@@ -327,7 +325,7 @@ export default function AdminPanel() {
           
           {/* Dashboard Stats */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
-            <div className="bg-white p-[18px] sm:p-5 rounded-[12px] border border-slate-200 shadow-sm flex flex-col border-l-[4px] border-l-slate-400 hover:shadow-md transition-all cursor-default">
+            <div className="bg-white p-[18px] sm:p-5 rounded-[12px] border border-slate-200 shadow-sm flex flex-col hover:shadow-md transition-all cursor-default">
               <div className="text-[11px] font-bold text-slate-500 uppercase tracking-[0.08em] mb-3">Total Leads</div>
               <div className="text-[36px] font-display font-bold text-slate-900 leading-none mb-2">{totalLeads}</div>
               <div className="text-[13px] font-medium text-emerald-500">+12% este mes</div>
@@ -414,7 +412,7 @@ export default function AdminPanel() {
                         <tr key={client.id} className="hover:bg-slate-50 transition-colors duration-200 group cursor-pointer" onClick={() => setSelectedClient(client)}>
                           <td className="px-5 py-3.5">
                             <div className="flex items-center gap-3">
-                              <div className={`w-[34px] h-[34px] rounded-[9px] bg-gradient-to-br ${gradientClass} flex items-center justify-center font-display font-bold text-xs text-white shrink-0`}>
+                              <div className={`w-[34px] h-[34px] rounded-[9px] ${gradientClass} flex items-center justify-center font-display font-bold text-xs text-white shrink-0`}>
                                 {client.businessName?.substring(0,2).toUpperCase() || 'NA'}
                               </div>
                               <div>
@@ -501,7 +499,7 @@ export default function AdminPanel() {
               <div className="bg-white border-b border-slate-200 px-6 pt-5 pb-0 shrink-0 sticky top-0 z-20">
                 <div className="flex justify-between items-start mb-4">
                   <div className="flex items-center gap-3.5">
-                    <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${getAvatarGradient(selectedClient.businessName || '')} flex items-center justify-center font-display font-bold text-lg text-white shrink-0 shadow-[0_4px_12px_rgba(37,99,235,0.3)]`}>
+                    <div className={`w-11 h-11 rounded-xl ${getAvatarGradient(selectedClient.businessName || '')} flex items-center justify-center font-display font-bold text-lg text-white shrink-0 shadow-[0_4px_12px_rgba(37,99,235,0.3)]`}>
                       {selectedClient.businessName?.substring(0,1).toUpperCase() || 'N'}
                     </div>
                     <div>
@@ -544,7 +542,7 @@ export default function AdminPanel() {
                   </button>
                   <button 
                     onClick={() => updateStatus(selectedClient.id, 'contacted')}
-                    className="flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 active:scale-97 text-emerald-700 px-3 py-1.5 rounded-full font-medium text-[12px] transition-all"
+                    className="flex items-center gap-1.5 bg-white border border-emerald-500 hover:bg-emerald-50 active:scale-97 text-emerald-600 px-3 py-1.5 rounded-full font-medium text-[12px] transition-all"
                   >
                     <CheckCircle2 size={14} /> En Gestión
                   </button>
@@ -599,8 +597,8 @@ export default function AdminPanel() {
                         )}
                       </div>
                       <div className="sm:col-span-2">
-                        <div className="text-[12px] text-slate-500 mb-1.5">Descripción / Notas del cliente</div>
-                        <div className="bg-amber-50/10 border border-amber-200/20 rounded-lg p-3 text-[13.5px] text-amber-900 leading-relaxed">
+                        <div className="text-[12px] text-slate-500 mb-0.5">Descripción / Notas del cliente</div>
+                        <div className="text-[13.5px] text-slate-900 leading-relaxed">
                           {selectedClient.description || 'Sin notas adicionales.'}
                         </div>
                       </div>
@@ -668,10 +666,10 @@ export default function AdminPanel() {
                         ))}
                       </div>
                     ) : (
-                      <div className="bg-transparent border border-dashed border-slate-300 rounded-xl p-10 text-center flex flex-col items-center justify-center">
-                        <ImageIcon className="text-slate-300 mb-3" size={32} />
-                        <div className="text-[14px] font-medium text-slate-500">Sin fotografías</div>
-                        <div className="text-[12px] text-slate-400 mt-1">El cliente no subió imágenes de su negocio.</div>
+                      <div className="border border-dashed border-slate-300 rounded-lg p-8 flex flex-col items-center justify-center text-center">
+                        <ImageIcon className="text-slate-300 mb-2" size={32} />
+                        <div className="text-[14px] font-medium text-slate-600 mb-1">Sin fotografías</div>
+                        <div className="text-[13px] text-slate-400">El cliente no subió imágenes de su negocio.</div>
                       </div>
                     )}
                   </div>
